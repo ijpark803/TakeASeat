@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TakeASeat"
         tools:targetApi="31">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDnq3wqGbFiNxxuSCZ9ZT7Dlyh60s4VNEY">
+        </meta-data>
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -23,5 +26,6 @@
             </intent-filter>
         </activity>
     </application>
+
 
 </manifest>
