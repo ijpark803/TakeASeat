@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,11 +44,23 @@ public class MainActivity extends AppCompatActivity {
         secondFragmentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-                replaceFragment(new ProfileView());
+                // Check if user is logged in
+                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                    // User is logged in, show profile fragment
+                    replaceFragment(new ProfileView());
+                } else {
+                    // User is not logged in, show login fragment
+                    replaceFragment(new Login());
+                }
+
+                transaction.commit();
 
             }
         });
+
+
     }
 
     private void replaceFragment(Fragment fragment) {
