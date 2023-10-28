@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "382961514024",
+    "project_id": "takeaseat-99b4e",
+    "storage_bucket": "takeaseat-99b4e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:382961514024:android:a41a8489e34bee9649671d",
+        "android_client_info": {
+          "package_name": "com.example.takeaseat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBYoUfZufio3BRFA2Rrlm4-SWU2gxW5TE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
