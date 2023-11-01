@@ -14,14 +14,18 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
+    // first fragmentbtn is map button
+    // second fragmentbtn is profile button
     Button firstFragmentBtn, secondFragmentBtn;
+    User currentUser = new User();
+    public boolean loggedIn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Create an instance of Fragment1
+        // Create an instance of Fragment1 which is our map view, display this on start
         Fragment fragment1 = new MapView();
 
         // Begin a fragment transaction
@@ -47,13 +51,21 @@ public class MainActivity extends AppCompatActivity {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
                 // Check if user is logged in
-                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                if (loggedIn) {
                     // User is logged in, show profile fragment
                     replaceFragment(new ProfileView());
                 } else {
                     // User is not logged in, show login fragment
                     replaceFragment(new Login());
                 }
+//                // Check if user is logged in
+//                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+//                    // User is logged in, show profile fragment
+//                    replaceFragment(new ProfileView());
+//                } else {
+//                    // User is not logged in, show login fragment
+//                    replaceFragment(new Login());
+//                }
 
                 transaction.commit();
 
