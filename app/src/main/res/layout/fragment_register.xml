@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Register">
+    tools:context=".Register"
+    android:id="@+id/registrationlayout">
 
     <TextView
         android:id="@+id/register"
@@ -35,29 +36,48 @@
         android:textColor="@color/black"
         android:textColorHint="@color/black" />
 
+
     <EditText
         android:id="@+id/password"
-        android:layout_below="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_below="@+id/email"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="0dp"
         android:background="#e35a5a"
         android:hint="Password"
         android:padding="15dp"
         android:textColor="@color/black"
-        android:textColorHint="@color/black"/>
+        android:textColorHint="@color/black" />
+
+    <TextView
+        android:id="@+id/passwordmsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/password"
+        android:layout_centerHorizontal="true"
+        android:text="password must be 6 characters or more!"
+        android:textAllCaps="true"
+        android:textColor="#F44336" />
 
     <EditText
         android:id="@+id/uscid"
-        android:layout_below="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_below="@+id/passwordmsg"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
         android:background="#e35a5a"
         android:hint="USC ID"
         android:padding="15dp"
         android:textColor="@color/black"
-        android:textColorHint="@color/black"/>
+        android:textColorHint="@color/black" />
 
     <EditText
         android:id="@+id/affiliation"
@@ -99,5 +119,7 @@
         android:backgroundTint="@color/design_default_color_secondary"
         android:onClick="sendData"
         android:text="REGISTER" />
+
+
 
 </RelativeLayout>

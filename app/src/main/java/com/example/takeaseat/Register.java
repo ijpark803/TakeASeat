@@ -2,14 +2,24 @@ package com.example.takeaseat;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -32,6 +42,7 @@ public class Register extends Fragment {
     private EditText name, email, password, affiliation, id;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    public MainActivity ma;
 
     public Register() {
         // Required empty public constructor
@@ -83,12 +94,16 @@ public class Register extends Fragment {
                 sendData(v);
             }
         });
+        ma = (MainActivity) getActivity();
         return view;
     }
 
     public void sendData(View view)
     {
         writeNewUser();
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        replaceFragment(new ProfileView());
+        transaction.commit();
     }
 
     public void writeNewUser() {
@@ -99,6 +114,19 @@ public class Register extends Fragment {
                 id.getText().toString(),
                 affiliation.getText().toString()
         );
-        mDatabase.child("users").child(email.getText().toString()).setValue(user);
+        ma.currentUser = user;
+        mDatabase.child("users").child(email.getText().toString().replace(".","_")).setValue(user);
+        // access the main activity and log in a user
+        ma.loggedIn = true;
+//        mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString());
+    }
+
+    private void replaceFragment(Fragment fragment) {
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout,fragment);
+        fragmentTransaction.commit();
+
     }
 }

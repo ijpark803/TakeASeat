@@ -22,15 +22,18 @@
 
     <EditText
         android:id="@+id/email"
-        android:layout_below="@+id/signin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_below="@+id/signin"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:background="#e35a5a"
         android:hint="Email"
         android:padding="20dp"
         android:textColor="@color/black"
-        android:textColorHint="@color/black"/>
+        android:textColorHint="@color/black" />
 
     <EditText
         android:id="@+id/password"
@@ -45,15 +48,17 @@
         android:textColorHint="@color/black"/>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/loginbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/loginbtn"
         android:layout_below="@id/password"
-        android:text="LOGIN"
-        android:backgroundTint="@color/design_default_color_secondary"
         android:layout_centerHorizontal="true"
-        android:layout_margin="20dp"
-        />
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/design_default_color_secondary"
+        android:text="LOGIN" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/registerbtn"

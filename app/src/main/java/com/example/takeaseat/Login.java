@@ -2,16 +2,24 @@ package com.example.takeaseat;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,8 +36,12 @@ public class Login extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private DatabaseReference mDatabase;
+    public MainActivity ma;
 
-    Button registerbtn;
+
+    EditText email, password;
+    Button registerbtn, loginbtn;
 
     public Login() {
         // Required empty public constructor
@@ -75,6 +87,17 @@ public class Login extends Fragment {
                 transaction.commit();
             }
         });
+        ma = (MainActivity) getActivity();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        email = view.findViewById(R.id.email);
+        password = view.findViewById(R.id.password);
+        loginbtn = view.findViewById(R.id.loginbtn);
+        loginbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkUser();
+            }
+        });
         return view;
     }
 
@@ -83,5 +106,32 @@ public class Login extends Fragment {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout,fragment);
         fragmentTransaction.commit();
+    }
+    // determines if username exists, if so, does password exist, return true only if both are a match in the database
+    public void checkUser()
+    {
+        mDatabase.child("users").child(email.getText().toString().replace(".","_")).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                    // if task is unsuccessful, just return us to the profile page and make us do it again
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    replaceFragment(new Login());
+                    transaction.commit();
+                }
+                else {
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                    // if task is successful, instantiate user class
+                    String result = String.valueOf(task.getResult().getValue());
+                    User temp = task.getResult().getValue(User.class);
+                    ma.currentUser = temp;
+                    ma.loggedIn = true;
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    replaceFragment(new ProfileView());
+                    transaction.commit();
+                }
+            }
+        });
     }
 }
