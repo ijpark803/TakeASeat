@@ -7,6 +7,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +28,10 @@ public class Register extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    // Variables added ****
+    private EditText name, email, password, affiliation, id;
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
 
     public Register() {
         // Required empty public constructor
@@ -53,12 +62,43 @@ public class Register extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_register, container, false);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register, container, false);
+        name = (EditText) view.findViewById(R.id.name);
+        email = (EditText) view.findViewById(R.id.email);
+        id = (EditText) view.findViewById(R.id.uscid);
+        affiliation = (EditText) view.findViewById(R.id.affiliation);
+        password = (EditText) view.findViewById(R.id.password);
+        Button registerButton = (Button) view.findViewById(R.id.registerbtn);
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendData(v);
+            }
+        });
+        return view;
+    }
+
+    public void sendData(View view)
+    {
+        writeNewUser();
+    }
+
+    public void writeNewUser() {
+        User user = new User(
+                email.getText().toString(),
+                name.getText().toString(),
+                password.getText().toString(),
+                id.getText().toString(),
+                affiliation.getText().toString()
+        );
+        mDatabase.child("users").child(email.getText().toString()).setValue(user);
     }
 }

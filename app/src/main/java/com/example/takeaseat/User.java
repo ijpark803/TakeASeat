@@ -1,7 +1,7 @@
 package com.example.takeaseat;
 public class User {
     // data members
-    public String username;
+    public String email;
     public String name;
     public String password;
     public String uscID;
@@ -15,21 +15,18 @@ public class User {
         // Default Constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public User(String username, String name, String password, String uscID, String uscAffiliation) {
-        this.username = username;
+    public User(String email, String name, String password, String uscID, String uscAffiliation) {
+        this.email = email;
         this.name = name;
         this.password = password;
         this.uscID = uscID;
         this.uscAffiliation = uscAffiliation;
     }
 
-    public void writeNewUser(String username, String name, String password, String uscID, String uscAffiliation) {
-        User user = new User(username, name, password, uscID, uscAffiliation);
-//        mDatabase.child("users").child(userId).setValue(user);
-    }
-    public String getUsername()
+
+    public String getEmail()
     {
-        return username;
+        return email;
     }
     public String getUscID()
     {
