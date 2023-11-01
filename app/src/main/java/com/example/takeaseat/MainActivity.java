@@ -14,6 +14,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
+    // first fragmentbtn is map button
+    // second fragmentbtn is profile button
     Button firstFragmentBtn, secondFragmentBtn;
 
     @Override
@@ -21,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Create an instance of Fragment1
+        // Create an instance of Fragment1 which is our map view, display this on start
         Fragment fragment1 = new MapView();
 
         // Begin a fragment transaction
