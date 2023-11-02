@@ -70,6 +70,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline6" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/logoutbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/design_default_color_secondary"
+        android:text="LOG OUT"
+        tools:layout_editor_absoluteX="152dp"
+        tools:layout_editor_absoluteY="422dp"
+        tools:ignore="MissingConstraints" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
