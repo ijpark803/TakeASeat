@@ -52,7 +52,7 @@ public class ProfileView extends Fragment {
                 mAuth.signOut();
                 ma.loggedIn = false;
                 replaceFragment(new Login());
-                ma.finish();
+
             }
         });
 
