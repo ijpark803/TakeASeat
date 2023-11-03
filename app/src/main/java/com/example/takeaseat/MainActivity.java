@@ -11,6 +11,10 @@ import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,11 +23,115 @@ public class MainActivity extends AppCompatActivity {
     Button firstFragmentBtn, secondFragmentBtn;
     User currentUser = new User();
     public boolean loggedIn = false;
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+    public MainActivity ma;
+    public Vector<Building> buildings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        buildings = new Vector<>();
+
+        //populate the database, if not already done.
+        Building WAS = new Building(
+                "1",
+                "Annenberg",
+                "09:09",
+                "Wallis Annenberg Hall, an 88,000-square-foot edifice that blends tradition with technology. Incoming students, faculty and staff in the public relations, journalism and communications programs will have access to fast wifi, a converged media center, multimedia content creation classrooms, a café and numerous meeting and seating pods.",
+                5
+        );
+        buildings.add(WAS);
+        Building OHE = new Building(
+                "2",
+                "Olin Hall of Engineering",
+                "09:09",
+                "description of olin hall",
+                5
+        );
+        buildings.add(OHE);
+
+        Building LVL = new Building(
+                "3",
+                "Leavey Library",
+                "09:09",
+                "Leavey Library is a dedicated library for undergraduate students",
+                5
+        );
+        buildings.add(LVL);
+
+        Building JFF = new Building(
+                "4",
+                "Leavey Library",
+                "09:09",
+                "description of Fertitta hall",
+                5
+        );
+        buildings.add(JFF);
+
+        Building VPD = new Building(
+                "5",
+                "Verna and Peter Dauterive Hall",
+                "09:09",
+                "description of Fertitta hall",
+                5
+        );
+        buildings.add(VPD);
+
+        Building RTCC = new Building(
+                "6",
+                "Ronald Tutor",
+                "09:09",
+                "description of RTCC",
+                5
+        );
+        buildings.add(RTCC);
+
+        Building SEL = new Building(
+                "7",
+                "Science and Engineering Library",
+                "09:09",
+                "description of SEL",
+                5
+        );
+        buildings.add(SEL);
+
+        Building SAL = new Building(
+                "8",
+                "Salvatori Computer Science Center",
+                "09:09",
+                "description of SAL",
+                5
+        );
+        buildings.add(SAL);
+
+        Building DML = new Building(
+                "9",
+                "Doheny Library",
+                "09:09",
+                "description of DML",
+                5
+        );
+        buildings.add(DML);
+
+        Building GFS = new Building(
+                "10",
+                "Grace Ford Salvatori Hall",
+                "09:09",
+                "description of GFS",
+                5
+        );
+        buildings.add(GFS);
+
+        for(int i = 0; i < buildings.size(); i++){
+            Building curr = buildings.elementAt(i);
+            mDatabase.child("buildings").child(curr.getName()).setValue(curr);
+        }
+
 
         // Create an instance of Fragment1 which is our map view, display this on start
         Fragment fragment1 = new MapView();
@@ -82,6 +190,10 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frameLayout,fragment);
         fragmentTransaction.commit();
 
+    }
+
+    public Vector<Building> getBuildings() {
+        return buildings;
     }
 
 }

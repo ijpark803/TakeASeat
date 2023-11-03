@@ -5,12 +5,14 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +25,15 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.maps.android.ui.IconGenerator;
+
+import java.util.Vector;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,6 +43,21 @@ import com.google.maps.android.ui.IconGenerator;
 public class MapView extends Fragment implements OnMapReadyCallback {
 
     View view;
+
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+    public MainActivity ma;
+    public Vector<Integer> SeatsAvail;
+
+    public Vector<Building> buildings;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+//        buildings = ["WAS", ]
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,7 +70,6 @@ public class MapView extends Fragment implements OnMapReadyCallback {
         if (supportMapFragment != null) {
             supportMapFragment.getMapAsync(this);
         }
-
         return view;
     }
 
@@ -54,20 +78,40 @@ public class MapView extends Fragment implements OnMapReadyCallback {
         LatLng ll = new LatLng(34.021596, -118.286369);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, 16));
 
+        // code to get seat number available from each building from firebase - broken right now
+//        SeatsAvail = new Vector<Integer>();
+//            for (int i = 1; i <= 10; i++) {
+//            mDatabase.child("buildings").child(Integer.toString(i)).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//                @Override
+//                public void onComplete(@NonNull Task<DataSnapshot> task) {
+//                    if (task.isSuccessful()) {
+//                        DataSnapshot snapshot = task.getResult();
+//                        Log.d("firebase", String.valueOf(task.getResult().getValue()));
+//                        Building temp = task.getResult().getValue(Building.class);
+//                        SeatsAvail.add(temp.getTotalSeats());
+//                    } else {
+//                        // Handle the error
+//                        Log.e("firebase", "Error getting data", task.getException());
+//
+//                    }
+//                }
+//            });
+//        }
+
+
         IconGenerator iconGenerator = new IconGenerator(getContext());
-        Bitmap bitmap = iconGenerator.makeIcon("Text Of Icon");
+        Bitmap annen = iconGenerator.makeIcon("Annenberg | ");
 
         LatLng annenberg = new LatLng(34.02086719918009, -118.28700277916016);
         googleMap.addMarker(new MarkerOptions()
                 .position(annenberg)
                 .title("Annenberg")
-                .icon(BitmapDescriptorFactory.fromBitmap(bitmap)));
+                .icon(BitmapDescriptorFactory.fromBitmap(annen)));
 
         LatLng viterbi = new LatLng(34.020723787589866, -118.28948746114057);
         googleMap.addMarker(new MarkerOptions()
                 .position(viterbi)
-                .title("Viterbi")
-                .icon(BitmapDescriptorFactory.fromBitmap(bitmap)));
+                .title("Viterbi"));
 
         LatLng leavey = new LatLng(34.02135997615666, -118.28399659246597);
         googleMap.addMarker(new MarkerOptions()
@@ -120,6 +164,10 @@ public class MapView extends Fragment implements OnMapReadyCallback {
                 return true;
             }
         });
+    }
+
+    public void addBuilding(Building building){
+
     }
 
 }
