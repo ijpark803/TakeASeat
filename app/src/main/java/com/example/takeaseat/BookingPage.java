@@ -3,10 +3,11 @@ package com.example.takeaseat;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,12 +16,9 @@ import android.view.ViewGroup;
  */
 public class BookingPage extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    // Existing parameters and variables
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -36,7 +34,6 @@ public class BookingPage extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment BookingPage.
      */
-    // TODO: Rename and change types and number of parameters
     public static BookingPage newInstance(String param1, String param2) {
         BookingPage fragment = new BookingPage();
         Bundle args = new Bundle();
@@ -59,6 +56,21 @@ public class BookingPage extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_booking_page, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_booking_page, container, false);
+
+        // Get the LinearLayout and add the time slots
+        LinearLayout timeSlotsLayout = rootView.findViewById(R.id.timeSlotsLayout);
+
+        // Add time slots from 8:00 AM to 5:00 PM with 30-minute intervals
+        for (int hour = 8; hour < 17; hour++) {
+            for (int minute = 0; minute < 60; minute += 30) {
+                String time = String.format("%02d:%02d", hour, minute);
+                TextView timeSlotTextView = new TextView(getContext());
+                timeSlotTextView.setText(time);
+                timeSlotsLayout.addView(timeSlotTextView);
+            }
+        }
+
+        return rootView;
     }
 }

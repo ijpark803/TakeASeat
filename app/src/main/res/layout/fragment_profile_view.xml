@@ -39,7 +39,7 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/idnumber"
+        app:layout_constraintStart_toEndOf="@+id/uscid"
         app:layout_constraintTop_toTopOf="@+id/guideline6" />
 
     <TextView
@@ -84,8 +84,9 @@
         android:backgroundTint="@color/design_default_color_secondary"
         android:text="LOG OUT"
         tools:layout_editor_absoluteX="152dp"
-        tools:layout_editor_absoluteY="422dp"
+        tools:layout_editor_absoluteY="420dp"
         tools:ignore="MissingConstraints" />
+
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -128,4 +129,47 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="166dp" />
+
+    <!-- Upcoming Reservations -->
+    <TextView
+        android:id="@+id/upcomingReservationsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upcoming Reservations"
+        android:textSize="24sp"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/upcomingReservationsList"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/upcomingReservationsLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/pastReservationsLabel" />
+
+    <!-- Past Reservations -->
+    <TextView
+        android:id="@+id/pastReservationsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Past Reservations"
+        android:textSize="24sp"
+        app:layout_constraintTop_toBottomOf="@+id/upcomingReservationsList"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/pastReservationsList"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/pastReservationsLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
