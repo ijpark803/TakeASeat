@@ -23,6 +23,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link Register#newInstance} factory method to
@@ -112,7 +114,8 @@ public class Register extends Fragment {
                 name.getText().toString(),
                 password.getText().toString(),
                 id.getText().toString(),
-                affiliation.getText().toString()
+                affiliation.getText().toString(),
+                new HashMap<>()
         );
         ma.currentUser = user;
         mDatabase.child("users").child(email.getText().toString().replace(".","_")).setValue(user);

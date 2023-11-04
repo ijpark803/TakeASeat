@@ -1,4 +1,9 @@
 package com.example.takeaseat;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
+
 public class User {
     // data members
     public String email;
@@ -6,8 +11,10 @@ public class User {
     public String password;
     public String uscID;
     public boolean activeReservation = false;
-//    public Vector<Reservation> seatHistory = new Vector<Reservation>();
-//    public String photoName;
+    //public Vector<Reservation> seatHistory = new Vector<Reservation>();
+    private Map<String, Boolean> reservations;
+
+    //    public String photoName;
     public String uscAffiliation;
 
     public User()
@@ -17,14 +24,16 @@ public class User {
         name = "";
         password = "";
         uscID = "";
+        reservations = new HashMap<>();
         uscAffiliation = "";
     }
 
-    public User(String email, String name, String password, String uscID, String uscAffiliation) {
+    public User(String email, String name, String password, String uscID, String uscAffiliation, Map<String, Boolean> reservations) {
         this.email = email;
         this.name = name;
         this.password = password;
         this.uscID = uscID;
+        this.reservations = reservations;
         this.uscAffiliation = uscAffiliation;
     }
 
@@ -73,5 +82,13 @@ public class User {
 //    {
 //        return photoName;
 //    }
+
+    public Map<String, Boolean> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(Map<String, Boolean> reservations) {
+        this.reservations = reservations;
+    }
 }
 

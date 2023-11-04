@@ -15,6 +15,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,12 +43,19 @@ public class MainActivity extends AppCompatActivity {
         buildings = new Vector<>();
 
         //populate the database, if not already done.
+        Building.TimeSlot timeSlot = new Building.TimeSlot();
+        timeSlot.setSeatsAvailable(5);
+
+        Map<String, Building.TimeSlot> timeSlots = new HashMap<>();
+        timeSlots.put("time_slot_1", timeSlot);
+
         Building WAS = new Building(
                 "1",
                 "Annenberg",
                 "09:09",
                 "Wallis Annenberg Hall, an 88,000-square-foot edifice that blends tradition with technology. Incoming students, faculty and staff in the public relations, journalism and communications programs will have access to fast wifi, a converged media center, multimedia content creation classrooms, a café and numerous meeting and seating pods.",
-                5
+                5,
+                timeSlots
         );
         buildings.add(WAS);
         Building OHE = new Building(
@@ -54,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
                 "Olin Hall of Engineering",
                 "09:09",
                 "description of olin hall",
-                5
+                5,
+                timeSlots
         );
         buildings.add(OHE);
 
@@ -63,7 +73,8 @@ public class MainActivity extends AppCompatActivity {
                 "Leavey Library",
                 "09:09",
                 "Leavey Library is a dedicated library for undergraduate students",
-                5
+                5,
+                timeSlots
         );
         buildings.add(LVL);
 
@@ -72,7 +83,8 @@ public class MainActivity extends AppCompatActivity {
                 "Fertitta Hall",
                 "09:09",
                 "description of Fertitta hall",
-                5
+                5,
+                timeSlots
         );
         buildings.add(JFF);
 
@@ -81,7 +93,8 @@ public class MainActivity extends AppCompatActivity {
                 "Verna and Peter Dauterive Hall",
                 "09:09",
                 "description of VPD hall",
-                5
+                5,
+                timeSlots
         );
         buildings.add(VPD);
 
@@ -90,7 +103,8 @@ public class MainActivity extends AppCompatActivity {
                 "Ronald Tutor",
                 "09:09",
                 "description of RTCC",
-                5
+                5,
+                timeSlots
         );
         buildings.add(RTCC);
 
@@ -99,7 +113,8 @@ public class MainActivity extends AppCompatActivity {
                 "Science and Engineering Library",
                 "09:09",
                 "description of SEL",
-                5
+                5,
+                timeSlots
         );
         buildings.add(SEL);
 
@@ -108,7 +123,8 @@ public class MainActivity extends AppCompatActivity {
                 "Salvatori Computer Science Center",
                 "09:09",
                 "description of SAL",
-                5
+                5,
+                timeSlots
         );
         buildings.add(SAL);
 
@@ -117,7 +133,8 @@ public class MainActivity extends AppCompatActivity {
                 "Doheny Library",
                 "09:09",
                 "description of DML",
-                5
+                5,
+                timeSlots
         );
         buildings.add(DML);
 
@@ -126,7 +143,8 @@ public class MainActivity extends AppCompatActivity {
                 "Grace Ford Salvatori Hall",
                 "09:09",
                 "description of GFS",
-                5
+                5,
+                timeSlots
         );
         buildings.add(GFS);
 

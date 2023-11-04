@@ -1,12 +1,12 @@
 package com.example.takeaseat;
 
 public class Reservation {
-//    Seat reservedSeat;
-//    Boolean reservationStatus;
-//    Building reserved Building;
-//    int userId;
-//
-//    public static void main(String[] args){
-//
-//    }
+    private String userId;
+    private String buildingId;
+    private String timeSlot;
+    private String status;
+
+    public static void main(String[] args){
+
+    }
 }
