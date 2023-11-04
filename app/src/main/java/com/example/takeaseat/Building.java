@@ -1,5 +1,8 @@
 package com.example.takeaseat;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Building {
     String id;
     String name;
@@ -7,6 +10,19 @@ public class Building {
     String description;
 
     Integer totalseats;
+    private Map<String, TimeSlot> timeSlots;
+    //nested time slot class
+    public static class TimeSlot {
+        private int seatsAvailable;
+        // Getters and setters
+        public int getSeatsAvailable() {
+            return seatsAvailable;
+        }
+
+        public void setSeatsAvailable(int seatsAvailable) {
+            this.seatsAvailable = seatsAvailable;
+        }
+    }
 //    Seat[] seats;
 
     public Building(){
@@ -15,13 +31,15 @@ public class Building {
         hours = "";
         description = "";
         totalseats = 0;
+        timeSlots = new HashMap<>();
     }
-    public Building(String id, String name, String hours, String description, Integer seats){
+    public Building(String id, String name, String hours, String description, Integer seats, Map<String, TimeSlot> timeSlots){
         this.id = id;
         this.name = name;
         this.hours = hours;
         this.description = description;
         this.totalseats = seats;
+        this.timeSlots = timeSlots;
     }
 
     public String getId(){
@@ -40,6 +58,10 @@ public class Building {
     public Integer getTotalSeats(){
         return totalseats;
     }
+    public void setTimeSlots(Map<String, TimeSlot> timeSlots) {
+        this.timeSlots = timeSlots;
+    }
+
 
 
     public static void main(String[] args){
