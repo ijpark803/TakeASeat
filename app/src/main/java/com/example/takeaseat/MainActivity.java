@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -32,8 +33,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseApp.initializeApp(this);
 
         buildings = new Vector<>();
 
@@ -66,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         Building JFF = new Building(
                 "4",
-                "Leavey Library",
+                "Fertitta Hall",
                 "09:09",
                 "description of Fertitta hall",
                 5
@@ -77,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 "5",
                 "Verna and Peter Dauterive Hall",
                 "09:09",
-                "description of Fertitta hall",
+                "description of VPD hall",
                 5
         );
         buildings.add(VPD);
