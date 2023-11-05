@@ -162,8 +162,8 @@ public class BookingPage extends Fragment {
                         if (selectedSlots.contains(slotId)) {
                             // Slot is already selected, deselect it
                             selectedSlots.remove(slotId);
-                        } else if (selectedSlots.size() < maxSelections) {
-                            // Slot is not selected and limit not reached, select it
+                        } else if (selectedSlots.size() < maxSelections || selectedSlots.size() >= maxSelections && selectedSlots.size() < 4) {
+                            // Slot is not selected and the limit is not reached or there are 4 selected slots already, select it
                             selectedSlots.add(slotId);
                             if (isConsecutive(lastSelectedSlot, slotId)) {
                                 selectedSlots.add(slotId);
@@ -171,13 +171,13 @@ public class BookingPage extends Fragment {
                             } else {
                                 // Slots are not consecutive, show a message to the user
                                 Toast.makeText(getContext(), "Slots must be consecutive.", Toast.LENGTH_SHORT).show();
-                                //Disable reserve button
+                                // Disable reserve button
                                 reserveButton.setEnabled(false);
                             }
                         } else {
-                            // Maximum selections reached, show a message to the user
+                            // More than 4 slots selected, show a message to the user
                             Toast.makeText(getContext(), "You can only select up to 4 slots.", Toast.LENGTH_SHORT).show();
-                            //disable reserve button
+                            // Disable reserve button
                             reserveButton.setEnabled(false);
                         }
                         if (selectedSlots.size() == maxSelections && checkConsecutivenessOfSelectedSlots()) {
@@ -187,7 +187,6 @@ public class BookingPage extends Fragment {
                         }
                     }
                 });
-
 
             }
         }
