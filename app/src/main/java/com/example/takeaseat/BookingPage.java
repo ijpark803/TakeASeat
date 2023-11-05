@@ -162,8 +162,8 @@ public class BookingPage extends Fragment {
                         if (selectedSlots.contains(slotId)) {
                             // Slot is already selected, deselect it
                             selectedSlots.remove(slotId);
-                        } else if (selectedSlots.size() < maxSelections || selectedSlots.size() >= maxSelections && selectedSlots.size() < 4) {
-                            // Slot is not selected and the limit is not reached or there are 4 selected slots already, select it
+                        } else if (selectedSlots.size() < maxSelections) {
+                            // Slot is not selected and the limit is not reached
                             selectedSlots.add(slotId);
                             if (isConsecutive(lastSelectedSlot, slotId)) {
                                 selectedSlots.add(slotId);
