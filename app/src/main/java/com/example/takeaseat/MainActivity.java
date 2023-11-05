@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.FirebaseApp;
@@ -44,10 +45,16 @@ public class MainActivity extends AppCompatActivity {
 
         //populate the database, if not already done.
         Building.TimeSlot timeSlot = new Building.TimeSlot();
-        timeSlot.setSeatsAvailable(5);
+        timeSlot.setIndoor(5);
+        timeSlot.setOutdoor(5);
 
-        Map<String, Building.TimeSlot> timeSlots = new HashMap<>();
-        timeSlots.put("time_slot_1", timeSlot);
+        HashMap<String, Building.TimeSlot> timeSlots = new HashMap<>();
+        for (int hour = 8; hour < 17; hour++) {
+            for (int minute = 0; minute < 60; minute += 30) {
+                String time = String.format("%02d:%02d", hour, minute);
+                timeSlots.put(time, timeSlot);
+            }
+        }
 
         Building WAS = new Building(
                 "1",

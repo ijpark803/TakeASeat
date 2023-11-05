@@ -10,17 +10,34 @@ public class Building {
     String description;
 
     Integer totalseats;
-    private Map<String, TimeSlot> timeSlots;
+    public HashMap<String, TimeSlot> timeSlots;
     //nested time slot class
     public static class TimeSlot {
-        private int seatsAvailable;
-        // Getters and setters
-        public int getSeatsAvailable() {
-            return seatsAvailable;
+        private int indoor_seatsAvailable;
+        private int outdoor_seatsAvailable;
+        //constructor
+        public TimeSlot(){
+            this.indoor_seatsAvailable = 0;
+            this.outdoor_seatsAvailable = 0;
+        }
+        public TimeSlot(Integer In, Integer Out){
+            this.indoor_seatsAvailable = In;
+            this.outdoor_seatsAvailable = Out;
         }
 
-        public void setSeatsAvailable(int seatsAvailable) {
-            this.seatsAvailable = seatsAvailable;
+
+        // Getters and setters
+        public int getIndoor() {
+            return indoor_seatsAvailable;
+        }
+        public int getOutdoor() {
+            return outdoor_seatsAvailable;
+        }
+        public void setIndoor(int seatsAvailable) {
+            this.indoor_seatsAvailable = seatsAvailable;
+        }
+        public void setOutdoor(int seatsAvailable) {
+            this.outdoor_seatsAvailable = seatsAvailable;
         }
     }
 //    Seat[] seats;
@@ -33,7 +50,7 @@ public class Building {
         totalseats = 0;
         timeSlots = new HashMap<>();
     }
-    public Building(String id, String name, String hours, String description, Integer seats, Map<String, TimeSlot> timeSlots){
+    public Building(String id, String name, String hours, String description, Integer seats, HashMap<String, TimeSlot> timeSlots){
         this.id = id;
         this.name = name;
         this.hours = hours;
@@ -58,9 +75,9 @@ public class Building {
     public Integer getTotalSeats(){
         return totalseats;
     }
-    public void setTimeSlots(Map<String, TimeSlot> timeSlots) {
-        this.timeSlots = timeSlots;
-    }
+//    public void setTimeSlots(Map<String, TimeSlot> timeSlots) {
+//        this.timeSlots = timeSlots;
+//    }
 
 
 
