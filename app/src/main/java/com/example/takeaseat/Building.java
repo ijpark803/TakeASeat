@@ -8,14 +8,13 @@ public class Building {
     String name;
     String hours;
     String description;
-
     Integer totalseats;
     public HashMap<String, TimeSlot> timeSlots;
-    //nested time slot class
+    //Nested time slot class
     public static class TimeSlot {
         public int indoor_seatsAvailable;
         public int outdoor_seatsAvailable;
-        //constructor
+        //Constructor
         public TimeSlot(){
             this.indoor_seatsAvailable = 0;
             this.outdoor_seatsAvailable = 0;
@@ -62,7 +61,6 @@ public class Building {
     public String getId(){
         return id;
     }
-
     public String getName(){
         return name;
     }
@@ -79,13 +77,11 @@ public class Building {
 //        this.timeSlots = timeSlots;
 //    }
 
-
-
     public static void main(String[] args){
 
     }
 
-    // this method will return the seat object given an integer
+    // Method to return the seat object given an integer
 //    Seat getSeat(int index){
 //        for(int i = 0; i < seats.size(); i++){
 //            if(seats[i].seatId == index){

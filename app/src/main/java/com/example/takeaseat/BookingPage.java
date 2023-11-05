@@ -17,41 +17,26 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.w3c.dom.Text;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link BookingPage#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class BookingPage extends Fragment {
 
-    // Existing parameters and variables
+    //Parameters and variables
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
     private String buildingId = "";
-
     private TextView description;
-
     Building currBuilding;
-
     HashSet<Integer> selectedSlots = new HashSet<>(); // keeps track of # of slots picked
     int maxSelections = 4;
     int lastSelectedSlot = -1;
@@ -59,17 +44,9 @@ public class BookingPage extends Fragment {
     private DatabaseReference mDatabase;
 
     public BookingPage() {
-        // Required empty public constructor
+        // Empty constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BookingPage.
-     */
     public static BookingPage newInstance(String param1, String param2) {
         BookingPage fragment = new BookingPage();
         Bundle args = new Bundle();
@@ -84,13 +61,12 @@ public class BookingPage extends Fragment {
         super.onCreate(savedInstanceState);
 
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_booking_page, container, false);
-        // receive building name data from Mapview.java
+        // Receive building data from Mapview.java
         Bundle bundle = getArguments();
         if (bundle != null) {
             buildingId = bundle.getString("buildingId");
@@ -104,7 +80,7 @@ public class BookingPage extends Fragment {
                     for (DataSnapshot snapshot : task.getResult().getChildren()) {
                         Building building = snapshot.getValue(Building.class);
                         if (building != null && building.getId().equals(buildingId)) {
-                            // found the building with the matching ID
+                            // Find the building with the matching ID
                             currBuilding = building;
                             description = rootView.findViewById(R.id.description);
                             description.setText(building.getDescription());
@@ -128,10 +104,10 @@ public class BookingPage extends Fragment {
         // Add time slots from 8:00 AM to 5:00 PM with 30-minute intervals
         for (int hour = 8; hour < 17; hour++) {
             for (int minute = 0; minute < 60; minute += 30) {
-                //time formating
+                //Time formatting
                 String time = String.format("%02d:%02d", hour, minute);
                 CheckBox timeSlotTextView = new CheckBox(getContext());
-                //get the number of seats available
+                //Get the number of seats available
                 mDatabase.child("buildings").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -162,7 +138,7 @@ public class BookingPage extends Fragment {
                 count++;
                 timeSlotsLayout.addView(timeSlotTextView);
 
-                // code to restrict user from selecting more than 4 slots
+                // Code to restrict user from selecting more than 4 slots
                 timeSlotTextView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -180,7 +156,7 @@ public class BookingPage extends Fragment {
                             } else {
                                 // Slots are not consecutive, show a message to the user
                                 Toast.makeText(getContext(), "Slots must be consecutive.", Toast.LENGTH_SHORT).show();
-                                //disable reserve button
+                                //Disable reserve button
                                 reserveButton.setEnabled(false);
                             }
                         } else {

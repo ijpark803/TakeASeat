@@ -8,22 +8,19 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
 
-    // first fragmentbtn is map button
-    // second fragmentbtn is profile button
+    // First fragment button is map button
+    // Second fragment button is profile button
     Button firstFragmentBtn, secondFragmentBtn;
     User currentUser = new User();
     public boolean loggedIn = false;
@@ -43,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         buildings = new Vector<>();
 
-        //populate the database, if not already done.
+        //Populate the database if not already done
         Building.TimeSlot timeSlot = new Building.TimeSlot();
         timeSlot.setIndoor(5);
         timeSlot.setOutdoor(5);

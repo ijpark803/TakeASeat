@@ -16,45 +16,27 @@ import android.widget.EditText;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Login#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Login extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    // Initialize parameters
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     private DatabaseReference mDatabase;
     public MainActivity ma;
 
-
     EditText email, password;
     Button registerbtn, loginbtn;
 
     public Login() {
-        // Required empty public constructor
+        // Constructor
     }
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Login.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static Login newInstance(String param1, String param2) {
         Login fragment = new Login();
         Bundle args = new Bundle();
@@ -107,7 +89,7 @@ public class Login extends Fragment {
         fragmentTransaction.replace(R.id.frameLayout,fragment);
         fragmentTransaction.commit();
     }
-    // determines if username exists, if so, does password exist, return true only if both are a match in the database
+    // Determines if username exists, if so, does password exist, return true only if both are a match in the database
     public void checkUser()
     {
         mDatabase.child("users").child(email.getText().toString().replace(".","_")).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -115,14 +97,14 @@ public class Login extends Fragment {
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
                     Log.e("firebase", "Error getting data", task.getException());
-                    // if task is unsuccessful, just return us to the profile page and make us do it again
+                    // If task is unsuccessful, just return to the profile page and make the user do it again
                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                     replaceFragment(new Login());
                     transaction.commit();
                 }
                 else {
                     Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                    // if task is successful, instantiate user class
+                    // If task is successful, instantiate user class
                     String result = String.valueOf(task.getResult().getValue());
                     User temp = task.getResult().getValue(User.class);
                     ma.currentUser = temp;

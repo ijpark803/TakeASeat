@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Vector;
 
 public class User {
-    // data members
+    // Data members
     public String email;
     public String name;
     public String password;

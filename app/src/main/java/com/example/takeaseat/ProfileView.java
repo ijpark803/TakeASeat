@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class ProfileView extends Fragment {
 
@@ -40,7 +39,7 @@ public class ProfileView extends Fragment {
         name = (TextView) view.findViewById(R.id.uscname);
         affiliation = (TextView) view.findViewById(R.id.uscaffiliation);
         id = (TextView) view.findViewById(R.id.uscid);
-        // on create display name, affiliation, and id of current user
+        // On create display name, affiliation, and id of current user
         name.setText(ma.currentUser.name);
         affiliation.setText(ma.currentUser.uscAffiliation);
         id.setText(ma.currentUser.uscID);
