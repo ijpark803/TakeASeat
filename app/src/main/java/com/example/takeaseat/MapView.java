@@ -156,7 +156,7 @@ public class MapView extends Fragment implements OnMapReadyCallback {
                         .title("8")
                         .icon(BitmapDescriptorFactory.fromBitmap(sl)));
 
-                Bitmap doh = iconGenerator.makeIcon("SAL | " + SeatsAvail.elementAt(8));
+                Bitmap doh = iconGenerator.makeIcon("Doheny | " + SeatsAvail.elementAt(8));
                 LatLng doheny = new LatLng(34.020204513244394, -118.28369019521888);
                 googleMap.addMarker(new MarkerOptions()
                         .position(doheny)
