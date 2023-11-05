@@ -9,8 +9,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -20,6 +23,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,6 +51,10 @@ public class BookingPage extends Fragment {
     private TextView description;
 
     Building currBuilding;
+
+    HashSet<Integer> selectedSlots = new HashSet<>(); // keeps track of # of slots picked
+    int maxSelections = 4;
+    int lastSelectedSlot = -1;
 
     private DatabaseReference mDatabase;
 
@@ -105,17 +122,122 @@ public class BookingPage extends Fragment {
 
         // Get the LinearLayout and add the time slots
         LinearLayout timeSlotsLayout = rootView.findViewById(R.id.timeSlotsLayout);
+        int count = 0; // counter to assign id to each time slot
+        Button reserveButton = rootView.findViewById(R.id.reservebtn);
 
         // Add time slots from 8:00 AM to 5:00 PM with 30-minute intervals
         for (int hour = 8; hour < 17; hour++) {
             for (int minute = 0; minute < 60; minute += 30) {
+                //time formating
                 String time = String.format("%02d:%02d", hour, minute);
-                TextView timeSlotTextView = new TextView(getContext());
-                timeSlotTextView.setText(time);
+                CheckBox timeSlotTextView = new CheckBox(getContext());
+                //get the number of seats available
+                mDatabase.child("buildings").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DataSnapshot snapshot : task.getResult().getChildren()) {
+                                Building building = snapshot.getValue(Building.class);
+                                if (building != null && building.getId().equals(buildingId)) {
+                                    // found the building with the matching ID
+                                    HashMap<String, Building.TimeSlot> ts = building.timeSlots;
+                                    int indoor = ts.get(time).getIndoor();
+                                    int outdoor = ts.get(time).getOutdoor();
+
+                                    timeSlotTextView.setText(time + " Indoor: " + indoor + " Outdoor: " + outdoor);
+                                    break; // Exit loop since you found the building
+                                }
+                                Log.d("Firebase", building.toString());
+                            }
+
+                        } else {
+                            Log.e("Firebase", "Error getting data", task.getException());
+                        }
+
+                    }
+                });
+
+
+                timeSlotTextView.setId(count);
+                count++;
                 timeSlotsLayout.addView(timeSlotTextView);
+
+                // code to restrict user from selecting more than 4 slots
+                timeSlotTextView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int slotId = timeSlotTextView.getId();
+
+                        if (selectedSlots.contains(slotId)) {
+                            // Slot is already selected, deselect it
+                            selectedSlots.remove(slotId);
+                        } else if (selectedSlots.size() < maxSelections) {
+                            // Slot is not selected and limit not reached, select it
+                            selectedSlots.add(slotId);
+                            if (isConsecutive(lastSelectedSlot, slotId)) {
+                                selectedSlots.add(slotId);
+                                lastSelectedSlot = slotId;
+                            } else {
+                                // Slots are not consecutive, show a message to the user
+                                Toast.makeText(getContext(), "Slots must be consecutive.", Toast.LENGTH_SHORT).show();
+                                //disable reserve button
+                                reserveButton.setEnabled(false);
+                            }
+                        } else {
+                            // Maximum selections reached, show a message to the user
+                            Toast.makeText(getContext(), "You can only select up to 4 slots.", Toast.LENGTH_SHORT).show();
+                            //disable reserve button
+                            reserveButton.setEnabled(false);
+                        }
+                        if (selectedSlots.size() == maxSelections && checkConsecutivenessOfSelectedSlots()) {
+                            reserveButton.setEnabled(true);
+                        } else {
+                            reserveButton.setEnabled(false);
+                        }
+                    }
+                });
+
+
             }
         }
 
+
+        reserveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedSlots.size() == maxSelections && checkConsecutivenessOfSelectedSlots()) {
+                    // Perform reservation logic
+                } else {
+                    // Display a message or handle the case where constraints are not met
+                }
+            }
+        });
+
         return rootView;
     }
+    private boolean isConsecutive(int slot1, int slot2) {
+        // Implement logic to check if slots are consecutive
+        return Math.abs(slot1 - slot2) == 1;
+    }
+    private boolean checkConsecutivenessOfSelectedSlots() {
+        List<Integer> selectedSlotNumbers = new ArrayList<>();
+
+        // Extract slot numbers from selectedSlots
+        for (Integer selectedSlot : selectedSlots) {
+            selectedSlotNumbers.add(selectedSlot);
+        }
+
+        // Sort the selected slot numbers
+        Collections.sort(selectedSlotNumbers);
+
+        // Check if the selected slots are consecutive
+        for (int i = 0; i < selectedSlotNumbers.size() - 1; i++) {
+            if (selectedSlotNumbers.get(i + 1) - selectedSlotNumbers.get(i) != 1) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 }

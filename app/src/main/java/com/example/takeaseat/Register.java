@@ -109,13 +109,15 @@ public class Register extends Fragment {
     }
 
     public void writeNewUser() {
+        HashMap<String, Boolean> reservations = new HashMap<>();
         User user = new User(
                 email.getText().toString(),
                 name.getText().toString(),
                 password.getText().toString(),
+                false,
                 id.getText().toString(),
                 affiliation.getText().toString(),
-                new HashMap<>()
+                reservations
         );
         ma.currentUser = user;
         mDatabase.child("users").child(email.getText().toString().replace(".","_")).setValue(user);
