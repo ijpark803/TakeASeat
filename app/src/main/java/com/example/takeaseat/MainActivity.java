@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 "2",
                 "Olin Hall of Engineering",
                 "09:09",
-                "description of olin hall",
+                "The Olin Hall of Engineering is a complex of structures tied together by elevated exterior corridors, plazas, and lush landscaping. Designed in 1963, Olin Hall is the first building Architect William Pereira designed at USC and reflects his belief in a strong indoor-outdoor relationship.",
                 5,
                 timeSlots
         );
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 "3",
                 "Leavey Library",
                 "09:09",
-                "Leavey Library is a dedicated library for undergraduate students",
+                "The Thomas and Dorothy Leavey Library provides a state-of-the-art learning environment for students and faculty. Leavey’s print and electronic collections, services, and technology are designed to facilitate coursework, studying, and research. Experts are available 24 hours a day to provide assistance with research and computing.",
                 5,
                 timeSlots
         );
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 "4",
                 "Fertitta Hall",
                 "09:09",
-                "description of Fertitta hall",
+                "Fertitta Hall provides significant outdoor space via an outdoor courtyard, shared with the adjacent Graduate School of Business, as well as gathering spaces outside on Childs Way for the students to meet, interact, and study. The building is certified LEED Gold, reinforcing the social responsibility mission of the school.",
                 5,
                 timeSlots
         );
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 "5",
                 "Verna and Peter Dauterive Hall",
                 "09:09",
-                "description of VPD hall",
+                "USC's first interdisciplinary social sciences building is a place where faculty and students from across the university come together to tackle the most pressing social problems affecting our region and our global community. The Dr. Verna and Peter Dauterive Hall will foster and nur\u00ADture collaboration among interdisciplinary research groups from a multitude of USC social sciences professional schools.",
                 5,
                 timeSlots
         );
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 "6",
                 "Ronald Tutor",
                 "09:09",
-                "description of RTCC",
+                "The Ronald Tutor Campus Center is a 194,000-square-foot, six-level institutional facility with two levels below grade and four above. The facility is a mixed-use building consisting of meeting rooms, classrooms, administration and food services with theme restaurants, dining facilities, and lounges. The exterior of the building has a campus focal point with classic stone and masonry architecture façade, grand stair and fountains.",
                 5,
                 timeSlots
         );
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 "7",
                 "Science and Engineering Library",
                 "09:09",
-                "description of SEL",
+                "Formed in 1970 by the merger of USC’s existing science and engineering libraries, the Science & Engineering Library today provides essential support to student, faculty, and staff researchers in the life sciences, physical sciences, earth sciences, mathematics, and engineering. In addition to 5,000 reference books on the library’s renovated first floor, the library holds 70,000 bound journals on the second floor and approximately 80,000 books on its third floor.",
                 5,
                 timeSlots
         );
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 "8",
                 "Salvatori Computer Science Center",
                 "09:09",
-                "description of SAL",
+                "The Salvatori Computer Science Center is a study spot for engineering students that now provides newer computer technology and improved study spaces for students after the university and Information Technology Services upgraded the computer lab this summer.",
                 5,
                 timeSlots
         );
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                 "9",
                 "Doheny Library",
                 "09:09",
-                "description of DML",
+                "The historic Edward L. Doheny Jr. Memorial Library has served as an intellectual center and cultural treasure for generations of students, faculty and staff since it opened in 1932. In addition to housing a vast book and journal collection, Doheny also has spaces for studying, collaborative work, and special events. Students often study in the LA Times Mirror Reference Room or on the ground floor's Arts Corridor, located conveniently close to Doheny's tea house, LiteraTea.",
                 5,
                 timeSlots
         );
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 "10",
                 "Grace Ford Salvatori Hall",
                 "09:09",
-                "description of GFS",
+                "A hub for the USC College of Letters, Arts and Sciences, this building is home to many entry-level classes and discussion groups.",
                 5,
                 timeSlots
         );
