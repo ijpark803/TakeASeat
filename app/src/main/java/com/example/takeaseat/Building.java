@@ -13,8 +13,8 @@ public class Building {
     public HashMap<String, TimeSlot> timeSlots;
     //nested time slot class
     public static class TimeSlot {
-        private int indoor_seatsAvailable;
-        private int outdoor_seatsAvailable;
+        public int indoor_seatsAvailable;
+        public int outdoor_seatsAvailable;
         //constructor
         public TimeSlot(){
             this.indoor_seatsAvailable = 0;
