@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 "1",
                 "Annenberg",
                 "09:09",
-                "Wallis Annenberg Hall, an 88,000-square-foot edifice that blends tradition with technology. Incoming students, faculty and staff in the public relations, journalism and communications programs will have access to fast wifi, a converged media center, multimedia content creation classrooms, a café and numerous meeting and seating pods.",
+                "Wallis Annenberg Hall blends tradition with technology. Incoming students, faculty and staff in the public relations, journalism and communications programs will have access to fast wifi, a converged media center, a café and meeting and seating pods.",
                 5,
                 timeSlots
         );
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 "3",
                 "Leavey Library",
                 "09:09",
-                "The Thomas and Dorothy Leavey Library provides a state-of-the-art learning environment for students and faculty. Leavey’s print and electronic collections, services, and technology are designed to facilitate coursework, studying, and research. Experts are available 24 hours a day to provide assistance with research and computing.",
+                "Leavey Library provides a state-of-the-art learning environment. Leavey’s print and electronic collections, services, and technology are designed to facilitate coursework, studying, and research. Experts are available 24 hours a day to provide assistance with research and computing.",
                 5,
                 timeSlots
         );
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 "4",
                 "Fertitta Hall",
                 "09:09",
-                "Fertitta Hall provides significant outdoor space via an outdoor courtyard, shared with the adjacent Graduate School of Business, as well as gathering spaces outside on Childs Way for the students to meet, interact, and study. The building is certified LEED Gold, reinforcing the social responsibility mission of the school.",
+                "Fertitta Hall provides significant outdoor space via an outdoor courtyard as well as gathering spaces outside on Childs Way for the students to meet, interact, and study. The building is certified LEED Gold, reinforcing the social responsibility mission of the school.",
                 5,
                 timeSlots
         );
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                 "5",
                 "Verna and Peter Dauterive Hall",
                 "09:09",
-                "USC's first interdisciplinary social sciences building is a place where faculty and students from across the university come together to tackle the most pressing social problems affecting our region and our global community. The Dr. Verna and Peter Dauterive Hall will foster and nur\u00ADture collaboration among interdisciplinary research groups from a multitude of USC social sciences professional schools.",
+                "USC's first interdisciplinary social sciences building is a place where faculty and students from across the university come together to tackle the most pressing social problems affecting our region and our global community.",
                 5,
                 timeSlots
         );
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 "6",
                 "Ronald Tutor",
                 "09:09",
-                "The Ronald Tutor Campus Center is a 194,000-square-foot, six-level institutional facility with two levels below grade and four above. The facility is a mixed-use building consisting of meeting rooms, classrooms, administration and food services with theme restaurants, dining facilities, and lounges. The exterior of the building has a campus focal point with classic stone and masonry architecture façade, grand stair and fountains.",
+                "The Ronald Tutor Campus Center is a six-level institutional facility. It is a mixed-use building consisting of meeting rooms, classrooms, administration and food services. The exterior of the building has a campus focal point with classic stone, grand staircase and fountains.",
                 5,
                 timeSlots
         );
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                 "7",
                 "Science and Engineering Library",
                 "09:09",
-                "Formed in 1970 by the merger of USC’s existing science and engineering libraries, the Science & Engineering Library today provides essential support to student, faculty, and staff researchers in the life sciences, physical sciences, earth sciences, mathematics, and engineering. In addition to 5,000 reference books on the library’s renovated first floor, the library holds 70,000 bound journals on the second floor and approximately 80,000 books on its third floor.",
+                "The Science & Engineering Library provides essential support to students in the life sciences, physical sciences, earth sciences, mathematics, and engineering. The library holds 70,000 bound journals on the second floor and approximately 80,000 books on its third floor.",
                 5,
                 timeSlots
         );
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                 "9",
                 "Doheny Library",
                 "09:09",
-                "The historic Edward L. Doheny Jr. Memorial Library has served as an intellectual center and cultural treasure for generations of students, faculty and staff since it opened in 1932. In addition to housing a vast book and journal collection, Doheny also has spaces for studying, collaborative work, and special events. Students often study in the LA Times Mirror Reference Room or on the ground floor's Arts Corridor, located conveniently close to Doheny's tea house, LiteraTea.",
+                "Doheny Jr. Memorial Library has served as an intellectual center for generations of students, faculty and staff since it opened in 1932. In addition to housing a vast book and journal collection, Doheny also has spaces for studying, collaborative work, and special events.",
                 5,
                 timeSlots
         );
