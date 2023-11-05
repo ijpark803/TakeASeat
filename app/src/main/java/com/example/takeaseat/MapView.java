@@ -32,6 +32,12 @@ import com.google.maps.android.ui.IconGenerator;
 
 import java.util.Vector;
 
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the  factory method to
+ * create an instance of this fragment.
+ */
+
 public class MapView extends Fragment implements OnMapReadyCallback {
 
     View view;

@@ -18,6 +18,12 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link Register#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+
 public class Register extends Fragment {
 
     //Initialize parameters

@@ -27,6 +27,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link BookingPage#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+
 public class BookingPage extends Fragment {
 
     //Parameters and variables
@@ -46,6 +52,15 @@ public class BookingPage extends Fragment {
     public BookingPage() {
         // Empty constructor
     }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment BookingPage.
+     */
 
     public static BookingPage newInstance(String param1, String param2) {
         BookingPage fragment = new BookingPage();

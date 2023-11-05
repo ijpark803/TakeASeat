@@ -20,6 +20,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link Login#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+
 public class Login extends Fragment {
 
     // Initialize parameters
@@ -36,6 +42,15 @@ public class Login extends Fragment {
     public Login() {
         // Constructor
     }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment Login.
+     */
 
     public static Login newInstance(String param1, String param2) {
         Login fragment = new Login();
