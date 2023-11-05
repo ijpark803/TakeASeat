@@ -2,12 +2,24 @@ package com.example.takeaseat;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +33,13 @@ public class BookingPage extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
+    private String buildingId = "";
+
+    private TextView description;
+
+    Building currBuilding;
+
+    private DatabaseReference mDatabase;
 
     public BookingPage() {
         // Required empty public constructor
@@ -46,10 +65,7 @@ public class BookingPage extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
@@ -57,6 +73,35 @@ public class BookingPage extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_booking_page, container, false);
+        // receive building name data from Mapview.java
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            buildingId = bundle.getString("buildingId");
+        }
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("buildings").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (DataSnapshot snapshot : task.getResult().getChildren()) {
+                        Building building = snapshot.getValue(Building.class);
+                        if (building != null && building.getId().equals(buildingId)) {
+                            // found the building with the matching ID
+                            currBuilding = building;
+                            description = rootView.findViewById(R.id.description);
+                            description.setText(building.getDescription());
+                            break; // Exit loop since you found the building
+                        }
+                        Log.d("Firebase", building.toString());
+                    }
+
+                } else {
+                    Log.e("Firebase", "Error getting data", task.getException());
+                }
+
+            }
+        });
 
         // Get the LinearLayout and add the time slots
         LinearLayout timeSlotsLayout = rootView.findViewById(R.id.timeSlotsLayout);
