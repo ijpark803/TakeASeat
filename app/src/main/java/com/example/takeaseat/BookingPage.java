@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,8 +46,6 @@ public class BookingPage extends Fragment {
     Building currBuilding;
     HashSet<Integer> selectedSlots = new HashSet<>(); // keeps track of # of slots picked
     int maxSelections = 4;
-    int lastSelectedSlot = -1;
-
     private DatabaseReference mDatabase;
 
     public BookingPage() {
@@ -115,6 +114,7 @@ public class BookingPage extends Fragment {
         LinearLayout timeSlotsLayout = rootView.findViewById(R.id.timeSlotsLayout);
         int count = 0; // counter to assign id to each time slot
         Button reserveButton = rootView.findViewById(R.id.reservebtn);
+        reserveButton.setEnabled(false);
 
         // Add time slots from 8:00 AM to 5:00 PM with 30-minute intervals
         for (int hour = 8; hour < 17; hour++) {
@@ -158,33 +158,34 @@ public class BookingPage extends Fragment {
                     @Override
                     public void onClick(View v) {
                         int slotId = timeSlotTextView.getId();
-                        if (selectedSlots.size() < maxSelections) {
-                            // Slot is not selected and the limit is not reached
-
-                            if (selectedSlots.contains(slotId)) {
-                                // Slot is already selected, deselect it
-                                selectedSlots.remove(slotId);
-                            }
-                            else {
-                                selectedSlots.add(slotId);
-                                lastSelectedSlot = slotId;
-                            }
-
-                            //if not first selected
-                            if (selectedSlots.size() > 1)
-                            {
-                                if (!isConsecutive(lastSelectedSlot, slotId)) {
+                        if (selectedSlots.size() <= maxSelections) {
+                                // Slot is not selected and the limit is not reached
+                                if (selectedSlots.contains(slotId)) {
+                                    // Slot is already selected, deselect it
                                     selectedSlots.remove(slotId);
-                                    Toast.makeText(getContext(), "Slots must be consecutive.", Toast.LENGTH_SHORT).show();
-                                    //needs to be fixed to vector lastSelectedSlot = slotId;
+                                    timeSlotTextView.setChecked(false);
                                 }
-                            }
-
+                                // not contained but size is already 4
+                                else if (selectedSlots.size() == 4)
+                                {
+                                    // cannot add it
+                                    timeSlotTextView.setChecked(false);
+                                }
+                                // not contained and size is not 4 so we can add it
+                                else {
+                                    selectedSlots.add(slotId);
+                                    timeSlotTextView.setChecked(true);
+                                }
+                        }
+                        else
+                        {
+                            timeSlotTextView.setChecked(false);
                         }
 
-                        if (selectedSlots.size() == maxSelections && checkConsecutivenessOfSelectedSlots()) {
+                        if (selectedSlots.size() <= maxSelections && checkConsecutivenessOfSelectedSlots() && selectedSlots.size() > 0) {
                             reserveButton.setEnabled(true);
-                        } else {
+                        }
+                        else {
                             reserveButton.setEnabled(false);
                         }
                     }
@@ -197,7 +198,7 @@ public class BookingPage extends Fragment {
         reserveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectedSlots.size() == maxSelections && checkConsecutivenessOfSelectedSlots()) {
+                if (selectedSlots.size() <= maxSelections && checkConsecutivenessOfSelectedSlots()) {
                     // Perform reservation logic
                 } else {
                     // Display a message or handle the case where constraints are not met
