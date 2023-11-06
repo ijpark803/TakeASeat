@@ -1,5 +1,7 @@
 package com.example.takeaseat;
 
+import android.net.Uri;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -14,7 +16,7 @@ public class User {
     //public Vector<Reservation> seatHistory = new Vector<Reservation>();
     public HashMap<String, Boolean> reservations; // <reservation id, reserved true/false>
 
-    //    public String photoName;
+        public String photoName;
     public String uscAffiliation;
 
     public User()
@@ -27,9 +29,10 @@ public class User {
         activeReservation = false;
         reservations = new HashMap<>();
         uscAffiliation = "";
+        photoName = "";
     }
 
-    public User(String email, String name, String password, Boolean active, String uscID, String uscAffiliation, HashMap<String, Boolean> reservations) {
+    public User(String email, String name, String password, Boolean active, String uscID, String uscAffiliation, HashMap<String, Boolean> reservations, String photourl) {
         this.email = email;
         this.name = name;
         this.password = password;
@@ -37,6 +40,7 @@ public class User {
         this.activeReservation = active;
         this.reservations = reservations;
         this.uscAffiliation = uscAffiliation;
+        this.photoName = photourl;
     }
 
 
@@ -80,10 +84,7 @@ public class User {
     {
         return uscAffiliation;
     }
-//    public String getPhotoName()
-//    {
-//        return photoName;
-//    }
+
 
     public HashMap<String, Boolean> getReservations() {
         return reservations;
@@ -91,6 +92,10 @@ public class User {
 
     public void setReservations(HashMap<String, Boolean> reservations) {
         this.reservations = reservations;
+    }
+
+    public String getPhotoName(){
+         return photoName;
     }
 }
 

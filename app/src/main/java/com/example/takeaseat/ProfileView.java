@@ -1,5 +1,6 @@
 package com.example.takeaseat;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,8 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ProfileView extends Fragment {
@@ -19,6 +22,8 @@ public class ProfileView extends Fragment {
     View view;
     public MainActivity ma;
     TextView name, affiliation, id;
+
+    ImageView photo;
 
     private FirebaseAuth mAuth;
     private Button logoutbtn;
@@ -39,12 +44,16 @@ public class ProfileView extends Fragment {
         name = (TextView) view.findViewById(R.id.uscname);
         affiliation = (TextView) view.findViewById(R.id.uscaffiliation);
         id = (TextView) view.findViewById(R.id.uscid);
+        photo = view.findViewById(R.id.photo);
         // On create display name, affiliation, and id of current user
         name.setText(ma.currentUser.name);
         affiliation.setText(ma.currentUser.uscAffiliation);
         id.setText(ma.currentUser.uscID);
-
+        String photoUriString = ma.currentUser.getPhotoName();
         logoutbtn = view.findViewById(R.id.logoutbtn);
+        Uri photoUri = Uri.parse(photoUriString);
+        Glide.with(requireContext()).load(photoUri).into(photo);
+
         logoutbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

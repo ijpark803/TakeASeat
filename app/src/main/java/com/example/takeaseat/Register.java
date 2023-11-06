@@ -1,22 +1,40 @@
 package com.example.takeaseat;
 
+import static android.app.Activity.RESULT_OK;
+
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,9 +51,13 @@ public class Register extends Fragment {
     private String mParam1;
     private String mParam2;
     private EditText name, email, password, affiliation, id;
+    public Uri photourl;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     public MainActivity ma;
+
+    private ActivityResultLauncher<Intent> pickImageLauncher;
+    private StorageReference storageReference;
 
     public Register() {
         // Constructor
@@ -59,6 +81,8 @@ public class Register extends Fragment {
         }
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        storageReference = FirebaseStorage.getInstance().getReference();
+
     }
 
     @Override
@@ -79,6 +103,25 @@ public class Register extends Fragment {
             }
         });
         ma = (MainActivity) getActivity();
+
+        pickImageLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        Uri imageUri = result.getData().getData();
+                        photourl = imageUri;
+                    }
+                });
+
+        // Trigger image upload when a button is clicked (you need to create this button in your layout)
+        Button uploadButton = view.findViewById(R.id.btnUpload);
+        uploadButton.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            pickImageLauncher.launch(intent);
+        });
+
+
+
         return view;
     }
 
@@ -99,7 +142,8 @@ public class Register extends Fragment {
                 false,
                 id.getText().toString(),
                 affiliation.getText().toString(),
-                reservations
+                reservations,
+                photourl.toString()
         );
         ma.currentUser = user;
         mDatabase.child("users").child(email.getText().toString().replace(".","_")).setValue(user);
@@ -116,4 +160,6 @@ public class Register extends Fragment {
         fragmentTransaction.commit();
 
     }
-}
+
+
+    }
