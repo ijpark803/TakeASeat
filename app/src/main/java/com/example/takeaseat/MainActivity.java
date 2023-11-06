@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 "Annenberg",
                 "09:09",
                 "Wallis Annenberg Hall blends tradition with technology. Incoming students, faculty and staff in the public relations, journalism and communications programs will have access to fast wifi, a converged media center, a café and meeting and seating pods.",
-                5,
+                10,
                 timeSlots
         );
         buildings.add(WAS);
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 "Olin Hall of Engineering",
                 "09:09",
                 "The Olin Hall of Engineering is a complex of structures tied together by elevated exterior corridors, plazas, and lush landscaping. Designed in 1963, Olin Hall is the first building Architect William Pereira designed at USC and reflects his belief in a strong indoor-outdoor relationship.",
-                5,
+                10,
                 timeSlots
         );
         buildings.add(OHE);
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 "Leavey Library",
                 "09:09",
                 "Leavey Library provides a state-of-the-art learning environment. Leavey’s print and electronic collections, services, and technology are designed to facilitate coursework, studying, and research. Experts are available 24 hours a day to provide assistance with research and computing.",
-                5,
+                10,
                 timeSlots
         );
         buildings.add(LVL);
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 "Fertitta Hall",
                 "09:09",
                 "Fertitta Hall provides significant outdoor space via an outdoor courtyard as well as gathering spaces outside on Childs Way for the students to meet, interact, and study. The building is certified LEED Gold, reinforcing the social responsibility mission of the school.",
-                5,
+                10,
                 timeSlots
         );
         buildings.add(JFF);
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 "Verna and Peter Dauterive Hall",
                 "09:09",
                 "USC's first interdisciplinary social sciences building is a place where faculty and students from across the university come together to tackle the most pressing social problems affecting our region and our global community.",
-                5,
+                10,
                 timeSlots
         );
         buildings.add(VPD);
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 "Ronald Tutor",
                 "09:09",
                 "The Ronald Tutor Campus Center is a six-level institutional facility. It is a mixed-use building consisting of meeting rooms, classrooms, administration and food services. The exterior of the building has a campus focal point with classic stone, grand staircase and fountains.",
-                5,
+                10,
                 timeSlots
         );
         buildings.add(RTCC);
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 "Science and Engineering Library",
                 "09:09",
                 "The Science & Engineering Library provides essential support to students in the life sciences, physical sciences, earth sciences, mathematics, and engineering. The library holds 70,000 bound journals on the second floor and approximately 80,000 books on its third floor.",
-                5,
+                10,
                 timeSlots
         );
         buildings.add(SEL);
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                 "Salvatori Computer Science Center",
                 "09:09",
                 "The Salvatori Computer Science Center is a study spot for engineering students that now provides newer computer technology and improved study spaces for students after the university and Information Technology Services upgraded the computer lab this summer.",
-                5,
+                10,
                 timeSlots
         );
         buildings.add(SAL);
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 "Doheny Library",
                 "09:09",
                 "Doheny Jr. Memorial Library has served as an intellectual center for generations of students, faculty and staff since it opened in 1932. In addition to housing a vast book and journal collection, Doheny also has spaces for studying, collaborative work, and special events.",
-                5,
+                10,
                 timeSlots
         );
         buildings.add(DML);
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                 "Grace Ford Salvatori Hall",
                 "09:09",
                 "A hub for the USC College of Letters, Arts and Sciences, this building is home to many entry-level classes and discussion groups.",
-                5,
+                10,
                 timeSlots
         );
         buildings.add(GFS);
