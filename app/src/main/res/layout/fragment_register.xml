@@ -106,11 +106,20 @@
         android:textColor="@color/black"
         android:textColorHint="@color/black"/>
 
+
+    <Button
+        android:id="@+id/btnUpload"
+        android:text="Click to Upload Profile Image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+  />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/registerbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/name"
+        android:layout_below="@id/btnUpload"
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
         android:layout_marginStart="20dp"
@@ -119,6 +128,7 @@
         android:backgroundTint="@color/design_default_color_secondary"
         android:onClick="sendData"
         android:text="REGISTER" />
+
 
 
 
