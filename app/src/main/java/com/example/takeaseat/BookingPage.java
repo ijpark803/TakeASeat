@@ -158,28 +158,30 @@ public class BookingPage extends Fragment {
                     @Override
                     public void onClick(View v) {
                         int slotId = timeSlotTextView.getId();
-
-                        if (selectedSlots.contains(slotId)) {
-                            // Slot is already selected, deselect it
-                            selectedSlots.remove(slotId);
-                        } else if (selectedSlots.size() < maxSelections) {
+                        if (selectedSlots.size() < maxSelections) {
                             // Slot is not selected and the limit is not reached
-                            selectedSlots.add(slotId);
-                            if (isConsecutive(lastSelectedSlot, slotId)) {
+
+                            if (selectedSlots.contains(slotId)) {
+                                // Slot is already selected, deselect it
+                                selectedSlots.remove(slotId);
+                            }
+                            else {
                                 selectedSlots.add(slotId);
                                 lastSelectedSlot = slotId;
-                            } else {
-                                // Slots are not consecutive, show a message to the user
-                                Toast.makeText(getContext(), "Slots must be consecutive.", Toast.LENGTH_SHORT).show();
-                                // Disable reserve button
-                                reserveButton.setEnabled(false);
                             }
-                        } else {
-                            // More than 4 slots selected, show a message to the user
-                            Toast.makeText(getContext(), "You can only select up to 4 slots.", Toast.LENGTH_SHORT).show();
-                            // Disable reserve button
-                            reserveButton.setEnabled(false);
+
+                            //if not first selected
+                            if (selectedSlots.size() > 1)
+                            {
+                                if (!isConsecutive(lastSelectedSlot, slotId)) {
+                                    selectedSlots.remove(slotId);
+                                    Toast.makeText(getContext(), "Slots must be consecutive.", Toast.LENGTH_SHORT).show();
+                                    //needs to be fixed to vector lastSelectedSlot = slotId;
+                                }
+                            }
+
                         }
+
                         if (selectedSlots.size() == maxSelections && checkConsecutivenessOfSelectedSlots()) {
                             reserveButton.setEnabled(true);
                         } else {
