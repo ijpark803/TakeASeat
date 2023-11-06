@@ -113,7 +113,7 @@ public class Register extends Fragment {
                     }
                 });
 
-        // Trigger image upload when a button is clicked (you need to create this button in your layout)
+
         Button uploadButton = view.findViewById(R.id.btnUpload);
         uploadButton.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);

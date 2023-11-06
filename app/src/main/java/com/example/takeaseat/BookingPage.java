@@ -20,7 +20,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -41,6 +43,8 @@ public class BookingPage extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
+
+    public MainActivity ma;
     private String buildingId = "";
     private TextView description;
     Building currBuilding;
@@ -78,6 +82,7 @@ public class BookingPage extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        ma = (MainActivity)getActivity();
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_booking_page, container, false);
         // Receive building data from Mapview.java
@@ -198,8 +203,28 @@ public class BookingPage extends Fragment {
         reserveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(ma.currentUser.activeReservation == true) return; // cant reserve if already have active reservation
+                Reservation curr = new Reservation();
                 if (selectedSlots.size() <= maxSelections && checkConsecutivenessOfSelectedSlots()) {
+                    Object[] times = selectedSlots.toArray();
+                    int startingIndex = (Integer) times[0];
+                    CheckBox slotView = rootView.findViewById(startingIndex);
+                    String slot_start = slotView.getText().toString();
                     // Perform reservation logic
+                    if(selectedSlots.size() == 1){
+
+                        Log.d("start time of selected slot", slot_start.substring(0,5));
+                        curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, ServerValue.TIMESTAMP, "0.5");
+                    }else if(selectedSlots.size() > 1){
+                        double slot_duration = 0.5 * selectedSlots.size();
+                        curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, ServerValue.TIMESTAMP, slot_duration+"");
+                    }
+                    mDatabase.child("reservations").push().setValue(curr);
+                    //need to record this data into the user clas in database
+                    //need to change active reservation to true for currUser
+                    // need to decrement # of seats available in currBuilding
+                    mDatabase.child("users").child(ma.currentUser.name).child("activeReservation").setValue(true);
+                    //mDatabase.child("buildings").child(currBuilding.getName()).child("timeslots").child(slot_start.substring(0,5)).
                 } else {
                     // Display a message or handle the case where constraints are not met
                 }
