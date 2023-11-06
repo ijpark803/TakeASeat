@@ -1,67 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".BookingPage">
+    android:layout_height="match_parent">
 
-
-    <FrameLayout
-        android:id="@+id/fragment_container"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context=".BookingPage">
 
-
-        <TextView
-            android:id="@+id/description"
+        <FrameLayout
+            android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="156dp"
-            android:layout_margin="35dp"
-            android:gravity="center"
-            android:text="building description"
-            android:textSize="15sp" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="Available Time Slots"
-            android:textSize="24sp" />
-
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="382dp"
-            android:layout_weight="1"
-            android:visibility="visible"
-            tools:visibility="visible"
-            android:layout_marginTop="200dp">
-
-            <LinearLayout
-                android:id="@+id/timeSlotsLayout"
+            <TextView
+                android:id="@+id/description"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <!-- Time slots as rectangular blocks will be added dynamically here -->
-            </LinearLayout>
+                android:layout_height="156dp"
+                android:layout_margin="35dp"
+                android:gravity="center"
+                android:text="building description"
+                android:textSize="15sp" />
 
-        </ScrollView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="Available Time Slots"
+                android:textSize="24sp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/reservebtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
-            android:backgroundTint="@color/design_default_color_secondary"
-            android:text="RESERVE"
-            android:layout_gravity="right"/>
-    </FrameLayout>
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:visibility="visible"
+                tools:visibility="visible"
+                android:layout_marginTop="200dp">
 
+                <LinearLayout
+                    android:id="@+id/timeSlotsLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <!-- Time slots as rectangular blocks will be added dynamically here -->
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
 
-    <!-- Header for Available Time Slots -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/reservebtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/design_default_color_secondary"
+                android:text="RESERVE"
+                android:layout_gravity="right"/>
+        </FrameLayout>
 
-    <!-- Vertical ScrollView to display rectangular blocks for time slots -->
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
