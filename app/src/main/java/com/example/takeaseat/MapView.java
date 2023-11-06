@@ -64,7 +64,7 @@ public class MapView extends Fragment implements OnMapReadyCallback {
     View view=inflater.inflate(R.layout.fragment_map_view, container, false);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-
+        ma = (MainActivity) getActivity();
         // Initialize map fragment
         SupportMapFragment supportMapFragment=(SupportMapFragment)
                 getChildFragmentManager().findFragmentById(R.id.maps);
@@ -171,11 +171,22 @@ public class MapView extends Fragment implements OnMapReadyCallback {
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                Bundle bundle = new Bundle();
-                bundle.putString("buildingId", marker.getTitle()); // Replace with the actual building name
-                Fragment bookingPageFragment = new BookingPage();
-                bookingPageFragment.setArguments(bundle);
-                replaceFragment(bookingPageFragment);
+                if (ma.loggedIn)
+                {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("buildingId", marker.getTitle()); // Replace with the actual building name
+                    Fragment bookingPageFragment = new BookingPage();
+                    bookingPageFragment.setArguments(bundle);
+                    replaceFragment(bookingPageFragment);
+                }
+                else
+                {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("buildingId", marker.getTitle()); // Replace with the actual building name
+                    Fragment loginPageFragment = new Login();
+                    loginPageFragment.setArguments(bundle);
+                    replaceFragment(loginPageFragment);
+                }
                 return true;
             }
         });
