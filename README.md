@@ -19,6 +19,22 @@ Thank you for evaluating our project -- there are some bugs with our first imple
 10) Click on the respective reserve button (indoor or outdoor) on the top of the page based on which seat you would like.
 11) Navigate to the profile page to see your reservation logged.
 
+Here are a list of users that you can log in and log out with in addition to creating your own! 
+u: alphabetsoup@gmail.com 
+p: alphabetsoup
+
+u: ijpark@usc.edu
+p: irene
+
+u: ikea@gmail.com
+p: ikea123
+
+u: kp@gmail.com
+p: kp
+
+u: rp@usc.edu
+p: rp
+
 That concludes the step by step process for navigating our app. We hope you enjoyed!
 
 -- Sincerely, Kevin, Irene & Kaitlyn 
