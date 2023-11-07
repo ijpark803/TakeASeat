@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -215,6 +217,9 @@ public class BookingPage extends Fragment {
                     int startingIndex = (Integer) times[0];
                     CheckBox slotView = rootView.findViewById(startingIndex);
                     String slot_start = slotView.getText().toString();
+
+                    List<Integer> selectedTimeSlots = new ArrayList<>(selectedSlots);
+                    decrementIndoor(selectedTimeSlots);
                     // Perform reservation logic
                     if(selectedSlots.size() == 1){
 
@@ -248,6 +253,8 @@ public class BookingPage extends Fragment {
                     CheckBox slotView = rootView.findViewById(startingIndex);
                     String slot_start = slotView.getText().toString();
                     // Perform reservation logic
+                    List<Integer> selectedTimeSlots = new ArrayList<>(selectedSlots);
+                    decrementOutdoor(selectedTimeSlots);
                     if(selectedSlots.size() == 1){
 
                         Log.d("start time of selected slot", slot_start.substring(0,5));
@@ -295,6 +302,36 @@ public class BookingPage extends Fragment {
         }
 
         return true;
+    }
+
+    public void decrementOutdoor(List<Integer> selectedSlotNumbers)
+    {
+        for (int i : selectedSlotNumbers)
+        {
+            int hour = 8 + i / 2;
+            int minute = (i % 2) * 30;
+            // Time Formatting
+            String time = String.format("%02d:%02d", hour, minute);
+            int temp = currBuilding.timeSlots.get(time).getOutdoor();
+            currBuilding.timeSlots.get(time).setOutdoor(temp-1);
+        }
+        mDatabase.child("buildings").child(currBuilding.getName()).setValue(currBuilding);
+
+    }
+
+    public void decrementIndoor(List<Integer> selectedSlotNumbers)
+    {
+        for (int i : selectedSlotNumbers)
+        {
+            int hour = 8 + i / 2;
+            int minute = (i % 2) * 30;
+            // Time Formatting
+            String time = String.format("%02d:%02d", hour, minute);
+            int temp = currBuilding.timeSlots.get(time).getIndoor();
+            currBuilding.timeSlots.get(time).setIndoor(temp-1);
+        }
+        mDatabase.child("buildings").child(currBuilding.getName()).setValue(currBuilding);
+
     }
 
 }
