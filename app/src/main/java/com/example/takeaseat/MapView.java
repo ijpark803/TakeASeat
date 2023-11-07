@@ -95,7 +95,7 @@ public class MapView extends Fragment implements OnMapReadyCallback {
                     Log.e("Firebase", "Error getting data", task.getException());
                 }
                 IconGenerator iconGenerator = new IconGenerator(getContext());
-                Bitmap annen = iconGenerator.makeIcon("Annenberg | " + SeatsAvail.elementAt(0));
+                Bitmap annen = iconGenerator.makeIcon("Annenberg");
 
                 LatLng annenberg = new LatLng(34.02086719918009, -118.28700277916016);
                 googleMap.addMarker(new MarkerOptions()
