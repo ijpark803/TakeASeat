@@ -1,10 +1,6 @@
 package com.example.takeaseat;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +9,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -22,13 +17,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Vector;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -98,64 +94,54 @@ public class BookingPage extends Fragment {
                 if (task.isSuccessful()) {
                     for (DataSnapshot snapshot : task.getResult().getChildren()) {
                         Building building = snapshot.getValue(Building.class);
+                        // find building id
                         if (building != null && building.getId().equals(buildingId)) {
-                            // Find the building with the matching ID
                             currBuilding = building;
                             description = rootView.findViewById(R.id.description);
-                            description.setText(building.getName() + ": " + building.getDescription());
-                            break; // Exit loop since you found the building
+                            description.setText(building.getDescription());
+                            break;
                         }
-                        Log.d("Firebase", building.toString());
                     }
 
-                } else {
-                    Log.e("Firebase", "Error getting data", task.getException());
                 }
-
             }
         });
 
-        // Get the LinearLayout and add the time slots
+        // add the time slots
         LinearLayout timeSlotsLayout = rootView.findViewById(R.id.timeSlotsLayout);
-        int count = 0; // counter to assign id to each time slot
+        int count = 0;
+
+        // indoor and outdoor reserve buttons for seating
         Button indoorReserveButton = rootView.findViewById(R.id.indoorreservebtn);
         indoorReserveButton.setEnabled(false);
-
         Button outdoorReserveButton = rootView.findViewById(R.id.outdoorreservebtn);
         outdoorReserveButton.setEnabled(false);
 
-        // Add time slots from 8:00 AM to 5:00 PM with 30-minute intervals
+        // add time slots from 8:00 AM to 5:00 PM with 30-minute intervals
         for (int hour = 8; hour < 17; hour++) {
             for (int minute = 0; minute < 60; minute += 30) {
-                //Time formatting
+                // format time
                 String time = String.format("%02d:%02d", hour, minute);
                 CheckBox timeSlotTextView = new CheckBox(getContext());
-                //Get the number of seats available
                 mDatabase.child("buildings").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                         if (task.isSuccessful()) {
                             for (DataSnapshot snapshot : task.getResult().getChildren()) {
                                 Building building = snapshot.getValue(Building.class);
+                                // find building through id
                                 if (building != null && building.getId().equals(buildingId)) {
-                                    // found the building with the matching ID
                                     HashMap<String, Building.TimeSlot> ts = building.timeSlots;
                                     int indoor = ts.get(time).getIndoor();
                                     int outdoor = ts.get(time).getOutdoor();
 
                                     timeSlotTextView.setText(time + " Indoor: " + indoor + " Outdoor: " + outdoor);
-                                    break; // Exit loop since you found the building
+                                    break;
                                 }
-                                Log.d("Firebase", building.toString());
                             }
-
-                        } else {
-                            Log.e("Firebase", "Error getting data", task.getException());
                         }
-
                     }
                 });
-
 
                 timeSlotTextView.setId(count);
                 count++;
@@ -189,7 +175,6 @@ public class BookingPage extends Fragment {
                         {
                             timeSlotTextView.setChecked(false);
                         }
-
                         if (selectedSlots.size() <= maxSelections && checkConsecutivenessOfSelectedSlots() && selectedSlots.size() > 0) {
                             indoorReserveButton.setEnabled(true);
                             outdoorReserveButton.setEnabled(true);
@@ -204,7 +189,6 @@ public class BookingPage extends Fragment {
             }
         }
 
-
         indoorReserveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -215,23 +199,19 @@ public class BookingPage extends Fragment {
                     int startingIndex = (Integer) times[0];
                     CheckBox slotView = rootView.findViewById(startingIndex);
                     String slot_start = slotView.getText().toString();
+
+                    List<Integer> selectedTimeSlots = new ArrayList<>(selectedSlots);
+                    decrementIndoor(selectedTimeSlots);
                     // Perform reservation logic
                     if(selectedSlots.size() == 1){
-
-                        Log.d("start time of selected slot", slot_start.substring(0,5));
                         curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, ServerValue.TIMESTAMP, "0.5");
-                    }else if(selectedSlots.size() > 1){
+                    }
+                    else if(selectedSlots.size() > 1){
                         double slot_duration = 0.5 * selectedSlots.size();
                         curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, ServerValue.TIMESTAMP, slot_duration+"");
                     }
                     mDatabase.child("reservations").push().setValue(curr);
-                    //need to record this data into the user clas in database
-                    //need to change active reservation to true for currUser
-                    // need to decrement # of seats available in currBuilding
                     mDatabase.child("users").child(ma.currentUser.name).child("activeReservation").setValue(true);
-                    //mDatabase.child("buildings").child(currBuilding.getName()).child("timeslots").child(slot_start.substring(0,5)).
-                } else {
-                    // Display a message or handle the case where constraints are not met
                 }
             }
         });
@@ -248,29 +228,22 @@ public class BookingPage extends Fragment {
                     CheckBox slotView = rootView.findViewById(startingIndex);
                     String slot_start = slotView.getText().toString();
                     // Perform reservation logic
+                    List<Integer> selectedTimeSlots = new ArrayList<>(selectedSlots);
+                    decrementOutdoor(selectedTimeSlots);
                     if(selectedSlots.size() == 1){
-
-                        Log.d("start time of selected slot", slot_start.substring(0,5));
                         curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, ServerValue.TIMESTAMP, "0.5");
-                    }else if(selectedSlots.size() > 1){
+                    }
+                    else if(selectedSlots.size() > 1){
                         double slot_duration = 0.5 * selectedSlots.size();
                         curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, ServerValue.TIMESTAMP, slot_duration+"");
                     }
                     mDatabase.child("reservations").push().setValue(curr);
-                    //need to record this data into the user clas in database
-                    //need to change active reservation to true for currUser
-                    // need to decrement # of seats available in currBuilding
                     mDatabase.child("users").child(ma.currentUser.name).child("activeReservation").setValue(true);
-                    //mDatabase.child("buildings").child(currBuilding.getName()).child("timeslots").child(slot_start.substring(0,5)).
-                } else {
-                    // Display a message or handle the case where constraints are not met
                 }
             }
         });
-
         return rootView;
     }
-
 
     private boolean isConsecutive(int slot1, int slot2) {
         // Implement logic to check if slots are consecutive
@@ -293,8 +266,34 @@ public class BookingPage extends Fragment {
                 return false;
             }
         }
-
         return true;
     }
 
+    public void decrementOutdoor(List<Integer> selectedSlotNumbers)
+    {
+        for (int i : selectedSlotNumbers)
+        {
+            int hour = 8 + i / 2;
+            int minute = (i % 2) * 30;
+            // Time Formatting
+            String time = String.format("%02d:%02d", hour, minute);
+            int temp = currBuilding.timeSlots.get(time).getOutdoor();
+            currBuilding.timeSlots.get(time).setOutdoor(temp-1);
+        }
+        mDatabase.child("buildings").child(currBuilding.getName()).setValue(currBuilding);
+    }
+
+    public void decrementIndoor(List<Integer> selectedSlotNumbers)
+    {
+        for (int i : selectedSlotNumbers)
+        {
+            int hour = 8 + i / 2;
+            int minute = (i % 2) * 30;
+            // Time Formatting
+            String time = String.format("%02d:%02d", hour, minute);
+            int temp = currBuilding.timeSlots.get(time).getIndoor();
+            currBuilding.timeSlots.get(time).setIndoor(temp-1);
+        }
+        mDatabase.child("buildings").child(currBuilding.getName()).setValue(currBuilding);
+    }
 }
