@@ -130,14 +130,18 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="166dp" />
 
-    <!-- Upcoming Reservations -->
+<!--    <androidx.core.widget.NestedScrollView-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_width="match_parent"-->
+
+<!--        android:id="@+id/scroll">-->
     <TextView
         android:id="@+id/upcomingReservationsLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Upcoming Reservations"
         android:textSize="24sp"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/logoutbtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -171,5 +175,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
+<!--    </androidx.core.widget.NestedScrollView>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
