@@ -12,54 +12,61 @@
         android:orientation="vertical"
         tools:context=".BookingPage">
 
-        <FrameLayout
-            android:id="@+id/fragment_container"
+        <!-- Description -->
+        <TextView
+            android:id="@+id/description"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="156dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="building description"
+            android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="match_parent"
-                android:layout_height="156dp"
-                android:layout_margin="35dp"
-                android:gravity="center"
-                android:text="building description"
-                android:textSize="15sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Available Time Slots"
+            android:textSize="24sp"
+            android:layout_marginTop="20dp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="Available Time Slots"
-                android:textSize="24sp" />
-
-            <androidx.core.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:visibility="visible"
-                tools:visibility="visible"
-                android:layout_marginTop="200dp">
-
-                <LinearLayout
-                    android:id="@+id/timeSlotsLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <!-- Time slots as rectangular blocks will be added dynamically here -->
-                </LinearLayout>
-            </androidx.core.widget.NestedScrollView>
+        <!-- Reserve buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/reservebtn"
+                android:id="@+id/indoorreservebtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:layout_margin="10dp"
                 android:backgroundTint="@color/design_default_color_secondary"
-                android:text="RESERVE"
-                android:layout_gravity="right"/>
-        </FrameLayout>
+                android:text="Reserve Indoor" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/outdoorreservebtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/design_default_color_secondary"
+                android:text="Reserve Outdoor" />
+        </LinearLayout>
+
+        <!-- Nested content -->
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/timeSlotsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <!-- Time slots as rectangular blocks will be added dynamically here -->
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 </ScrollView>

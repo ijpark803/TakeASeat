@@ -118,8 +118,11 @@ public class BookingPage extends Fragment {
         // Get the LinearLayout and add the time slots
         LinearLayout timeSlotsLayout = rootView.findViewById(R.id.timeSlotsLayout);
         int count = 0; // counter to assign id to each time slot
-        Button reserveButton = rootView.findViewById(R.id.reservebtn);
-        reserveButton.setEnabled(false);
+        Button indoorReserveButton = rootView.findViewById(R.id.indoorreservebtn);
+        indoorReserveButton.setEnabled(false);
+
+        Button outdoorReserveButton = rootView.findViewById(R.id.outdoorreservebtn);
+        outdoorReserveButton.setEnabled(false);
 
         // Add time slots from 8:00 AM to 5:00 PM with 30-minute intervals
         for (int hour = 8; hour < 17; hour++) {
@@ -188,10 +191,12 @@ public class BookingPage extends Fragment {
                         }
 
                         if (selectedSlots.size() <= maxSelections && checkConsecutivenessOfSelectedSlots() && selectedSlots.size() > 0) {
-                            reserveButton.setEnabled(true);
+                            indoorReserveButton.setEnabled(true);
+                            outdoorReserveButton.setEnabled(true);
                         }
                         else {
-                            reserveButton.setEnabled(false);
+                            indoorReserveButton.setEnabled(false);
+                            outdoorReserveButton.setEnabled(true);
                         }
                     }
                 });
@@ -200,7 +205,39 @@ public class BookingPage extends Fragment {
         }
 
 
-        reserveButton.setOnClickListener(new View.OnClickListener() {
+        indoorReserveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(ma.currentUser.activeReservation == true) return; // cant reserve if already have active reservation
+                Reservation curr = new Reservation();
+                if (selectedSlots.size() <= maxSelections && checkConsecutivenessOfSelectedSlots()) {
+                    Object[] times = selectedSlots.toArray();
+                    int startingIndex = (Integer) times[0];
+                    CheckBox slotView = rootView.findViewById(startingIndex);
+                    String slot_start = slotView.getText().toString();
+                    // Perform reservation logic
+                    if(selectedSlots.size() == 1){
+
+                        Log.d("start time of selected slot", slot_start.substring(0,5));
+                        curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, ServerValue.TIMESTAMP, "0.5");
+                    }else if(selectedSlots.size() > 1){
+                        double slot_duration = 0.5 * selectedSlots.size();
+                        curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, ServerValue.TIMESTAMP, slot_duration+"");
+                    }
+                    mDatabase.child("reservations").push().setValue(curr);
+                    //need to record this data into the user clas in database
+                    //need to change active reservation to true for currUser
+                    // need to decrement # of seats available in currBuilding
+                    mDatabase.child("users").child(ma.currentUser.name).child("activeReservation").setValue(true);
+                    //mDatabase.child("buildings").child(currBuilding.getName()).child("timeslots").child(slot_start.substring(0,5)).
+                } else {
+                    // Display a message or handle the case where constraints are not met
+                }
+            }
+        });
+
+        //add logic for other button
+        outdoorReserveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(ma.currentUser.activeReservation == true) return; // cant reserve if already have active reservation
@@ -233,6 +270,8 @@ public class BookingPage extends Fragment {
 
         return rootView;
     }
+
+
     private boolean isConsecutive(int slot1, int slot2) {
         // Implement logic to check if slots are consecutive
         return Math.abs(slot1 - slot2) == 1;
