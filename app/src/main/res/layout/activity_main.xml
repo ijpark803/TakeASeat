@@ -19,7 +19,7 @@
         android:backgroundTint="@color/black"
         android:text="Map"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginStart="50dp"/>
 
     <Button
@@ -30,7 +30,7 @@
         android:text="Profile"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginEnd="50dp"/>
 
 </RelativeLayout>

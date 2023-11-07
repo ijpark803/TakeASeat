@@ -102,7 +102,7 @@ public class BookingPage extends Fragment {
                             // Find the building with the matching ID
                             currBuilding = building;
                             description = rootView.findViewById(R.id.description);
-                            description.setText(building.getDescription());
+                            description.setText(building.getName() + ": " + building.getDescription());
                             break; // Exit loop since you found the building
                         }
                         Log.d("Firebase", building.toString());

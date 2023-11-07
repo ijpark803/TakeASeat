@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -30,10 +31,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -88,7 +94,7 @@ public class ProfileView extends Fragment {
 
         String userName = ma.currentUser.getName();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        LinearLayout ResList = view.findViewById(R.id.pastReservationsList);
+        LinearLayout containerLayout = view.findViewById(R.id.pastReservationsList);
         mDatabase.child("reservations").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -112,6 +118,9 @@ public class ProfileView extends Fragment {
                     TextView ReservationDisplay = new TextView(getContext());
                     for (Map.Entry<Long, List<String>> entry : reservationsMap.entrySet()) {
                         Long date = entry.getKey();
+                        Date d = new Date(date);
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                        String formattedDate = sdf.format(date);
                         List<String> reservationKeys = entry.getValue();
                         for(String k : reservationKeys){
 
@@ -123,6 +132,36 @@ public class ProfileView extends Fragment {
                             String timeSlot = snap.child("timeSlot").getValue(String.class);
                             String userId = snap.child("userId").getValue(String.class);
                             final String[] buildingName = {""};
+                            // check if date of res. passed. then status can be changed to false.
+                            Date currentDate = new Date();
+                            if(d.after(currentDate)){
+                                //res date is after currendate. so status is active
+                                status = true;
+                            }
+                            else{
+                                status = false;
+                            }
+                            String reservationTimeStr = timeSlot;
+
+                            SimpleDateFormat s = new SimpleDateFormat("HH:mm");
+                            Date reservationTime = null;
+                            try {
+                                reservationTime = s.parse(reservationTimeStr);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            Date currentTime = new Date();
+                            if (reservationTime != null) {
+                                if (reservationTime.after(currentTime)) {
+                                    status = true;
+                                } else if (reservationTime.before(currentTime)) {
+                                    status = false;
+                                }
+                            }
+                            DatabaseReference reservationRef = dataSnapshot.getRef().child(k).child("status");
+                            reservationRef.setValue(status);
+
+                            Boolean finalStatus = status;
                             mDatabase.child("buildings").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -133,8 +172,8 @@ public class ProfileView extends Fragment {
                                                 // found the building with the matching ID
                                                 HashMap<String, Building.TimeSlot> ts = building.timeSlots;
                                                 buildingName[0] = building.getName();
-                                                ReservationDisplay.setText("Date: " + date +
-                                                        ", Time Slot: " + timeSlot + ", Status: " + status + ", Duration: " + duration + ", Building ID: " + buildingName[0]);
+                                                ReservationDisplay.setText("Date: " + formattedDate +
+                                                        ", Time Slot: " + timeSlot + ", Status: " + finalStatus + ", Duration: " + duration + "hours, Building ID: " + buildingName[0]);
                                                 break;
                                             }
                                             Log.d("Firebase", building.toString());
@@ -150,7 +189,7 @@ public class ProfileView extends Fragment {
 
                         }
                     }
-                    ResList.addView(ReservationDisplay);
+                    containerLayout.addView(ReservationDisplay);
                 }
             }
 
