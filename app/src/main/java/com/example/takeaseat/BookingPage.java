@@ -196,7 +196,7 @@ public class BookingPage extends Fragment {
                         }
                         else {
                             indoorReserveButton.setEnabled(false);
-                            outdoorReserveButton.setEnabled(true);
+                            outdoorReserveButton.setEnabled(false);
                         }
                     }
                 });
