@@ -95,67 +95,68 @@ public class MapView extends Fragment implements OnMapReadyCallback {
                     Log.e("Firebase", "Error getting data", task.getException());
                 }
                 IconGenerator iconGenerator = new IconGenerator(getContext());
-                Bitmap annen = iconGenerator.makeIcon("Annenberg | " + SeatsAvail.elementAt(0));
+                Bitmap annen = iconGenerator.makeIcon("Annenberg");
 
                 LatLng annenberg = new LatLng(34.02086719918009, -118.28700277916016);
                 googleMap.addMarker(new MarkerOptions()
                         .position(annenberg)
-                        .title("1"));
+                        .title("1")
+                        .icon(BitmapDescriptorFactory.fromBitmap(annen)));
 
-                Bitmap vit = iconGenerator.makeIcon("Viterbi | " + SeatsAvail.elementAt(1));
+                Bitmap vit = iconGenerator.makeIcon("Viterbi");
                 LatLng viterbi = new LatLng(34.020723787589866, -118.28948746114057);
                 googleMap.addMarker(new MarkerOptions()
                         .position(viterbi)
-                        .title("2"));
+                        .title("2").icon(BitmapDescriptorFactory.fromBitmap(vit)));
 
 
-                Bitmap lvl = iconGenerator.makeIcon("Leavey | " + SeatsAvail.elementAt(2));
+                Bitmap lvl = iconGenerator.makeIcon("Leavey");
                 LatLng leavey = new LatLng(34.02135997615666, -118.28399659246597);
                 googleMap.addMarker(new MarkerOptions()
                         .position(leavey)
-                        .title("3"));
+                        .title("3").icon(BitmapDescriptorFactory.fromBitmap(lvl)));
 
-                Bitmap jf = iconGenerator.makeIcon("Fertitta | " + SeatsAvail.elementAt(3));
+                Bitmap jf = iconGenerator.makeIcon("Fertitta");
                 LatLng jff = new LatLng(34.01878218780673, -118.28239699277154);
                 googleMap.addMarker(new MarkerOptions()
                         .position(jff)
-                        .title("4"));
+                        .title("4").icon(BitmapDescriptorFactory.fromBitmap(jf)));
 
-                Bitmap vana = iconGenerator.makeIcon("VPD | " + SeatsAvail.elementAt(4));
+                Bitmap vana = iconGenerator.makeIcon("VPD");
                 LatLng vpd = new LatLng(34.01899061599517, -118.28389231584627);
                 googleMap.addMarker(new MarkerOptions()
                         .position(vpd)
-                        .title("5"));
+                        .title("5").icon(BitmapDescriptorFactory.fromBitmap(vana)));
 
-                Bitmap ronald = iconGenerator.makeIcon("RTCC | " + SeatsAvail.elementAt(5));
+                Bitmap ronald = iconGenerator.makeIcon("RTCC");
                 LatLng rtcc = new LatLng(34.020397492896734, -118.28634410686136);
                 googleMap.addMarker(new MarkerOptions()
                         .position(rtcc)
-                        .title("6"));
+                        .title("6").icon(BitmapDescriptorFactory.fromBitmap(ronald)));
 
-                Bitmap sci = iconGenerator.makeIcon("Science Lib | " + SeatsAvail.elementAt(6));
+                Bitmap sci = iconGenerator.makeIcon("Science Lib");
                 LatLng science = new LatLng(34.01965771721866, -118.28880617108945);
                 googleMap.addMarker(new MarkerOptions()
                         .position(science)
-                        .title("7"));
+                        .title("7").icon(BitmapDescriptorFactory.fromBitmap(annen)));
 
-                Bitmap sl = iconGenerator.makeIcon("SAL | " + SeatsAvail.elementAt(7));
+                Bitmap sl = iconGenerator.makeIcon("SAL");
                 LatLng sal = new LatLng(34.01955967359724, -118.28953071680795);
                 googleMap.addMarker(new MarkerOptions()
                         .position(sal)
-                        .title("8"));
+                        .title("8").icon(BitmapDescriptorFactory.fromBitmap(sl)));
 
-                Bitmap doh = iconGenerator.makeIcon("Doheny | " + SeatsAvail.elementAt(8));
+                Bitmap doh = iconGenerator.makeIcon("Doheny");
                 LatLng doheny = new LatLng(34.020204513244394, -118.28369019521888);
                 googleMap.addMarker(new MarkerOptions()
                         .position(doheny)
-                        .title("9"));
+                        .title("9").icon(BitmapDescriptorFactory.fromBitmap(doh)));
 
-                Bitmap g = iconGenerator.makeIcon("GFS | " + SeatsAvail.elementAt(9));
+                Bitmap g = iconGenerator.makeIcon("GFS");
                 LatLng gfs = new LatLng(34.02139310725714, -118.28801391813457);
                 googleMap.addMarker(new MarkerOptions()
                         .position(gfs)
-                        .title("10"));
+                        .title("10").icon(BitmapDescriptorFactory.fromBitmap(g)));
             }
         });
 
