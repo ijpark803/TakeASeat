@@ -53,6 +53,7 @@ public class ProfileView extends Fragment {
 
     private FirebaseAuth mAuth;
     private Button logoutbtn;
+    private Button cancelbtn;
     private DatabaseReference mDatabase;
 
     @Override
@@ -78,6 +79,8 @@ public class ProfileView extends Fragment {
         id.setText(ma.currentUser.uscID);
         String photoUriString = ma.currentUser.getPhotoName();
         logoutbtn = view.findViewById(R.id.logoutbtn);
+        cancelbtn = view.findViewById(R.id.cancelbtn);
+
         Uri photoUri = Uri.parse(photoUriString);
         Glide.with(requireContext()).load(photoUri).into(photo);
 
@@ -193,12 +196,46 @@ public class ProfileView extends Fragment {
                 }
             }
 
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
 
+        cancelbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // when cancel button is clicked, we should go through all reservations for a user and flip them to inactive
+                // if we want to keep note of whether it was cancelled, we can create a new field for the reservation in the database "wasCancelled"
+                mDatabase.child("reservations").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot reservationSnapshot : dataSnapshot.getChildren()) {
+                            String key = reservationSnapshot.getKey();
+                            DataSnapshot userIdSnapshot = reservationSnapshot.child("userId");
+                            String userIdValue = userIdSnapshot.getValue(String.class);
+                            // check if the userName matches
+                            if (userIdValue != null && userIdValue.equals(userName)) {
+                                DataSnapshot statusSnapshot = reservationSnapshot.child("status");
+                                Boolean statusValue = statusSnapshot.getValue(Boolean.class);
+                                // if status was true, we want to set it to false
+                                // create a new field was cancelled
+                                if (statusValue) {
+                                    mDatabase.child("reservations").child(key).child("status").setValue(false);
+                                    mDatabase.child("reservations").child(key).child("wasCancelled").setValue(true);
+                                }
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                replaceFragment(new ProfileView());
+            }
+        });
 
         return view;
     }
