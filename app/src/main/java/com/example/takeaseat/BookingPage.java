@@ -9,19 +9,26 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.model.LocalTime;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -147,6 +154,28 @@ public class BookingPage extends Fragment {
                 count++;
                 timeSlotsLayout.addView(timeSlotTextView);
 
+                Date currentTime = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+
+                try {
+                    // Parse the formatted time string to Date
+                    Date specifiedTime = sdf.parse(time);
+
+                    // Compare the times
+                    if (currentTime.before(specifiedTime)) {
+                        System.out.println("future");
+                        timeSlotTextView.setEnabled(true);
+                    } else if (currentTime.after(specifiedTime)) {
+                        System.out.println("past]");
+                        timeSlotTextView.setEnabled(false);
+                    } else {
+                        System.out.println("now");
+                        timeSlotTextView.setEnabled(false);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
                 // Code to restrict user from selecting more than 4 slots
                 timeSlotTextView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -192,7 +221,10 @@ public class BookingPage extends Fragment {
         indoorReserveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ma.currentUser.activeReservation == true) return; // cant reserve if already have active reservation
+                if(ma.currentUser.activeReservation == true) {
+                    Toast.makeText(getContext(), "You already have an active reservation", Toast.LENGTH_SHORT).show();
+                    return; // cant reserve if already have active reservation
+                }
                 Reservation curr = new Reservation();
                 if (selectedSlots.size() <= maxSelections && checkConsecutivenessOfSelectedSlots()) {
                     Object[] times = selectedSlots.toArray();
@@ -204,14 +236,14 @@ public class BookingPage extends Fragment {
                     decrementIndoor(selectedTimeSlots);
                     // Perform reservation logic
                     if(selectedSlots.size() == 1){
-                        curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, ServerValue.TIMESTAMP, "0.5");
+                        curr = new Reservation(ma.currentUser.email, buildingId, slot_start.substring(0,5), true, ServerValue.TIMESTAMP, "0.5", true);
                     }
                     else if(selectedSlots.size() > 1){
                         double slot_duration = 0.5 * selectedSlots.size();
-                        curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, ServerValue.TIMESTAMP, slot_duration+"");
+                        curr = new Reservation(ma.currentUser.email, buildingId, slot_start.substring(0,5), true, ServerValue.TIMESTAMP, slot_duration+"", true);
                     }
                     mDatabase.child("reservations").push().setValue(curr);
-                    mDatabase.child("users").child(ma.currentUser.name).child("activeReservation").setValue(true);
+                    mDatabase.child("users").child(ma.currentUser.email.toString().replace(".","_")).child("activeReservation").setValue(true);
                 }
             }
         });
@@ -220,7 +252,10 @@ public class BookingPage extends Fragment {
         outdoorReserveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ma.currentUser.activeReservation == true) return; // cant reserve if already have active reservation
+                if(ma.currentUser.activeReservation == true) {
+                    Toast.makeText(getContext(), "you already have an active reservation", Toast.LENGTH_SHORT).show();
+                    return; // cant reserve if already have active reservation
+                }
                 Reservation curr = new Reservation();
                 if (selectedSlots.size() <= maxSelections && checkConsecutivenessOfSelectedSlots()) {
                     Object[] times = selectedSlots.toArray();
@@ -231,11 +266,11 @@ public class BookingPage extends Fragment {
                     List<Integer> selectedTimeSlots = new ArrayList<>(selectedSlots);
                     decrementOutdoor(selectedTimeSlots);
                     if(selectedSlots.size() == 1){
-                        curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, ServerValue.TIMESTAMP, "0.5");
+                        curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, ServerValue.TIMESTAMP, "0.5", false);
                     }
                     else if(selectedSlots.size() > 1){
                         double slot_duration = 0.5 * selectedSlots.size();
-                        curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, ServerValue.TIMESTAMP, slot_duration+"");
+                        curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, ServerValue.TIMESTAMP, slot_duration+"", false);
                     }
                     mDatabase.child("reservations").push().setValue(curr);
                     mDatabase.child("users").child(ma.currentUser.name).child("activeReservation").setValue(true);

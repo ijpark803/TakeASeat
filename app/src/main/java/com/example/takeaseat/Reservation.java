@@ -9,6 +9,7 @@ public class Reservation {
     public String duration;
 
     public Object date;
+    public Boolean indoor;
 
     public static void main(String[] args){
 
@@ -19,14 +20,16 @@ public class Reservation {
         timeSlot = "";
         status = false;
         date = null;
+        indoor = false;
     }
-    public Reservation(String userId, String buildingId, String timeSlot, Boolean status, Object date, String duration) {
+    public Reservation(String userId, String buildingId, String timeSlot, Boolean status, Object date, String duration, Boolean indoor) {
         this.userId = userId;
         this.buildingId = buildingId;
         this.timeSlot = timeSlot;
         this.status = status;
         this.date = date;
         this.duration = duration;
+        this.indoor = indoor;
     }
 
 
