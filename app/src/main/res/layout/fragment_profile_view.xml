@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ProfileView">
 
-        <TextView
+    <TextView
             android:id="@+id/profileHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -99,25 +99,31 @@
         android:id="@+id/pastReservationsList"
         android:layout_width="411dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_below="@id/pastReservationsLabel"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp" />
+        android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="match_parent"
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancelbtn"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/pastReservationsList"
-        android:layout_marginTop="16dp">
+        android:layout_gravity="center"
+        android:layout_marginStart="200dp"
+        android:backgroundTint="@color/design_default_color_secondary"
+        android:text="CANCEL ACTIVE" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/logoutbtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/design_default_color_secondary"
-            android:text="LOG OUT"
-            android:layout_gravity="center" />
-    </FrameLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/logoutbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pastReservationsList"
+        android:layout_gravity="center"
+        android:layout_marginStart="75dp"
+        android:backgroundTint="@color/design_default_color_secondary"
+        android:text="LOG OUT" />
 
 </RelativeLayout>

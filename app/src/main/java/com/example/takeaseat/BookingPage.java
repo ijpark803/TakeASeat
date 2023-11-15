@@ -21,7 +21,6 @@ import com.google.firebase.database.ServerValue;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -234,14 +233,25 @@ public class BookingPage extends Fragment {
 
                     List<Integer> selectedTimeSlots = new ArrayList<>(selectedSlots);
                     decrementIndoor(selectedTimeSlots);
+
+                    long timestamp = 0;
+
+                    String time = slot_start.substring(0,5);
+                    Date currentDate = new Date();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+                    String current =  dateFormat.format(currentDate);
+
+
                     // Perform reservation logic
                     if(selectedSlots.size() == 1){
-                        curr = new Reservation(ma.currentUser.email, buildingId, slot_start.substring(0,5), true, ServerValue.TIMESTAMP, "0.5", true);
+
+                        curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, current, "0.5", true);
                     }
                     else if(selectedSlots.size() > 1){
                         double slot_duration = 0.5 * selectedSlots.size();
-                        curr = new Reservation(ma.currentUser.email, buildingId, slot_start.substring(0,5), true, ServerValue.TIMESTAMP, slot_duration+"", true);
+                        curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, current, slot_duration+"", true);
                     }
+
                     mDatabase.child("reservations").push().setValue(curr);
                     mDatabase.child("users").child(ma.currentUser.email.toString().replace(".","_")).child("activeReservation").setValue(true);
                 }
@@ -265,12 +275,25 @@ public class BookingPage extends Fragment {
                     // Perform reservation logic
                     List<Integer> selectedTimeSlots = new ArrayList<>(selectedSlots);
                     decrementOutdoor(selectedTimeSlots);
+                    long timestamp = 0;
+
+                    String time = slot_start.substring(0,5);
+                    Date currentDate = new Date();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+                    String current =  dateFormat.format(currentDate);
+
+
+
+
+                    // Perform reservation logic
                     if(selectedSlots.size() == 1){
-                        curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, ServerValue.TIMESTAMP, "0.5", false);
+
+                        curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, current, "0.5", false);
                     }
                     else if(selectedSlots.size() > 1){
                         double slot_duration = 0.5 * selectedSlots.size();
-                        curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, ServerValue.TIMESTAMP, slot_duration+"", false);
+                        curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, current, slot_duration+"", false);
+
                     }
                     mDatabase.child("reservations").push().setValue(curr);
                     mDatabase.child("users").child(ma.currentUser.name).child("activeReservation").setValue(true);
