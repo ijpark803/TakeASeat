@@ -34,7 +34,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -93,7 +95,7 @@ public class ProfileView extends Fragment {
 
             }
         });
-        TreeMap<Long, List<String>> reservationsMap = new TreeMap<>(Collections.reverseOrder());
+        TreeMap<String, List<String>> reservationsMap = new TreeMap<>(Collections.reverseOrder());
 
         String userName = ma.currentUser.getName();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -108,7 +110,7 @@ public class ProfileView extends Fragment {
 
                     if (userIdValue != null && userIdValue.equals(userName)) {
                         DataSnapshot dateSnapshot = reservationSnapshot.child("date");
-                        Long dateValue = dateSnapshot.getValue(Long.class);
+                        String dateValue = dateSnapshot.getValue(String.class);
                         if (dateValue != null) {
                             if (!reservationsMap.containsKey(dateValue)) {
                                 reservationsMap.put(dateValue, new ArrayList<>());
@@ -119,52 +121,76 @@ public class ProfileView extends Fragment {
                         }
                     }
                     TextView ReservationDisplay = new TextView(getContext());
-                    for (Map.Entry<Long, List<String>> entry : reservationsMap.entrySet()) {
-                        Long date = entry.getKey();
-                        Date d = new Date(date);
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                        String formattedDate = sdf.format(date);
+                    for (Map.Entry<String, List<String>> entry : reservationsMap.entrySet()) {
+//                        String date = entry.getKey();
+//                        Date d = new Date(date);
+//                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+//                        String formattedDate = sdf.format(date);
                         List<String> reservationKeys = entry.getValue();
                         for(String k : reservationKeys){
 
                             DataSnapshot snap = dataSnapshot.child(k);
-
+                            String reservationDate = snap.child("date").getValue(String.class);
                             final String[] buildingId = {snap.child("buildingId").getValue(String.class)};
                             String duration = snap.child("duration").getValue(String.class);
                             Boolean status = snap.child("status").getValue(Boolean.class);
                             String timeSlot = snap.child("timeSlot").getValue(String.class);
                             String userId = snap.child("userId").getValue(String.class);
+                            Boolean location = snap.child("indoor").getValue(Boolean.class);
+                            String indoor = "";
+                            if(location != null && location == true) {
+                                indoor = "Indoor";
+                            }
+                            else if(location != null && location == false){
+                                indoor = "Outdoor";
+                            }
                             final String[] buildingName = {""};
                             // check if date of res. passed. then status can be changed to false.
+
                             Date currentDate = new Date();
-                            if(d.after(currentDate)){
+                            Date resDate = new Date();
+
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+                            Log.d("look", reservationDate);
+                            try {
+                                resDate = dateFormat.parse(reservationDate);
+                            } catch (ParseException e) {
+                                throw new RuntimeException(e);
+                            }
+                            Log.d("COMPARE", resDate + "VS" + currentDate);
+
+                            if(resDate.after(currentDate)){
                                 //res date is after currendate. so status is active
                                 status = true;
+                                Log.d("compare", "is true");
                             }
-                            else{
+                            else if(resDate.before(currentDate)){
                                 status = false;
                             }
-                            String reservationTimeStr = timeSlot;
+                            else{
+                                //compare the times, since date is same.
+                                Date specifiedTime = parseTime(timeSlot);
+                                Date currentTime = Calendar.getInstance().getTime();
 
-                            SimpleDateFormat s = new SimpleDateFormat("HH:mm");
-                            Date reservationTime = null;
-                            try {
-                                reservationTime = s.parse(reservationTimeStr);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            Date currentTime = new Date();
-                            if (reservationTime != null) {
-                                if (reservationTime.after(currentTime)) {
-                                    status = true;
-                                } else if (reservationTime.before(currentTime)) {
+                                // Compare the specified time with the current time
+                                if (specifiedTime.before(currentTime)) {
                                     status = false;
+                                    // timeslot is before current time == false
+                                } else if (specifiedTime.after(currentTime)) {
+                                    // time slot is after current time == true
+                                    status = true;
+                                } else {
+                                    status = true;
                                 }
+                                Log.d("compare!!", currentDate + currentTime.toString() + "vs" + resDate + timeSlot);
+
                             }
+
                             DatabaseReference reservationRef = dataSnapshot.getRef().child(k).child("status");
                             reservationRef.setValue(status);
 
                             Boolean finalStatus = status;
+                            String finalIndoor = indoor;
                             mDatabase.child("buildings").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -175,8 +201,11 @@ public class ProfileView extends Fragment {
                                                 // found the building with the matching ID
                                                 HashMap<String, Building.TimeSlot> ts = building.timeSlots;
                                                 buildingName[0] = building.getName();
-                                                ReservationDisplay.setText("Date: " + formattedDate +
+                                                String rez = ("Date: " + reservationDate +
                                                         ", Time Slot: " + timeSlot + ", Status: " + finalStatus + ", Duration: " + duration + "hours, Building ID: " + buildingName[0]);
+                                                Log.d("reservation", rez);
+                                                ReservationDisplay.setText("Date: " + reservationDate +
+                                                        ", Time Slot: " + timeSlot + ", Status: " + finalStatus + ", Duration: " + duration + "hours, Building ID: " + buildingName[0] + ", Location: " + finalIndoor);
                                                 break;
                                             }
                                             Log.d("Firebase", building.toString());
@@ -246,5 +275,14 @@ public class ProfileView extends Fragment {
         fragmentTransaction.replace(R.id.frameLayout,fragment);
         fragmentTransaction.commit();
 
+    }
+    private static Date parseTime(String timeString) {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.US);
+            return dateFormat.parse(timeString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

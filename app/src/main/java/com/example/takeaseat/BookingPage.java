@@ -17,11 +17,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -202,14 +206,24 @@ public class BookingPage extends Fragment {
 
                     List<Integer> selectedTimeSlots = new ArrayList<>(selectedSlots);
                     decrementIndoor(selectedTimeSlots);
+
+                    long timestamp = 0;
+
+                    String time = slot_start.substring(0,5);
+                    Date currentDate = new Date();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+                    String current =  dateFormat.format(currentDate);
+
+
                     // Perform reservation logic
                     if(selectedSlots.size() == 1){
-                        curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, ServerValue.TIMESTAMP, "0.5");
+                        curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, current, "0.5", true);
                     }
                     else if(selectedSlots.size() > 1){
                         double slot_duration = 0.5 * selectedSlots.size();
-                        curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, ServerValue.TIMESTAMP, slot_duration+"");
+                        curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, current, slot_duration+"", true);
                     }
+
                     mDatabase.child("reservations").push().setValue(curr);
                     mDatabase.child("users").child(ma.currentUser.name).child("activeReservation").setValue(true);
                 }
@@ -230,12 +244,23 @@ public class BookingPage extends Fragment {
                     // Perform reservation logic
                     List<Integer> selectedTimeSlots = new ArrayList<>(selectedSlots);
                     decrementOutdoor(selectedTimeSlots);
+                    long timestamp = 0;
+
+                    String time = slot_start.substring(0,5);
+                    Date currentDate = new Date();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+                    String current =  dateFormat.format(currentDate);
+
+
+
+
+                    // Perform reservation logic
                     if(selectedSlots.size() == 1){
-                        curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, ServerValue.TIMESTAMP, "0.5");
+                        curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, current, "0.5", false);
                     }
                     else if(selectedSlots.size() > 1){
                         double slot_duration = 0.5 * selectedSlots.size();
-                        curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, ServerValue.TIMESTAMP, slot_duration+"");
+                        curr = new Reservation(ma.currentUser.name, buildingId, slot_start.substring(0,5), true, current, slot_duration+"", false);
                     }
                     mDatabase.child("reservations").push().setValue(curr);
                     mDatabase.child("users").child(ma.currentUser.name).child("activeReservation").setValue(true);
