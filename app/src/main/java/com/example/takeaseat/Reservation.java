@@ -10,8 +10,10 @@ public class Reservation {
 
     public String duration;
 
+
     public String date;
     public Boolean indoor;
+
 
 
     public static void main(String[] args){
@@ -22,11 +24,13 @@ public class Reservation {
         buildingId = "";
         timeSlot = "";
         status = false;
+
         date = "";
         indoor = false;
 
     }
     public Reservation(String userId, String buildingId, String timeSlot, Boolean status, String date, String duration, Boolean indoor) {
+
         this.userId = userId;
         this.buildingId = buildingId;
         this.timeSlot = timeSlot;
