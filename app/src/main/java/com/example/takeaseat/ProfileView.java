@@ -176,6 +176,9 @@ public class ProfileView extends Fragment {
                                 if (specifiedTime.before(currentTime)) {
                                     status = false;
                                     // timeslot is before current time == false
+                                    if(ma.currentUser.activeReservation){
+                                        ma.currentUser.activeReservation = false;
+                                    }
                                 } else if (specifiedTime.after(currentTime)) {
                                     // time slot is after current time == true
                                     status = true;
@@ -188,7 +191,7 @@ public class ProfileView extends Fragment {
 
                             DatabaseReference reservationRef = dataSnapshot.getRef().child(k).child("status");
                             reservationRef.setValue(status);
-
+                            mDatabase.child("user").child(ma.currentUser.getEmail().replace(".","_")).child("activeReservation").setValue(status);
                             Boolean finalStatus = status;
                             String finalIndoor = indoor;
                             mDatabase.child("buildings").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {

@@ -172,17 +172,17 @@ public class BookingPage extends Fragment {
 
                     specifiedTime = specifiedCalendar.getTime();
 
-//                    // Compare the times
-//                    if (currentTime.before(specifiedTime)) {
-//                        System.out.println("future");
-//                        timeSlotTextView.setEnabled(true);
-//                    } else if (currentTime.after(specifiedTime)) {
-//                        System.out.println("past");
-//                        timeSlotTextView.setEnabled(false);
-//                    } else {
-//                        System.out.println("now");
-//                        timeSlotTextView.setEnabled(false);
-//                    }
+                    // Compare the times
+                    if (currentTime.before(specifiedTime)) {
+                        System.out.println("future");
+                        timeSlotTextView.setEnabled(true);
+                    } else if (currentTime.after(specifiedTime)) {
+                        System.out.println("past");
+                        timeSlotTextView.setEnabled(false);
+                    } else {
+                        System.out.println("now");
+                        timeSlotTextView.setEnabled(false);
+                    }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
