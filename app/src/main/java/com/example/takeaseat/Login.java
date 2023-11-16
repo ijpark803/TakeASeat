@@ -92,7 +92,18 @@ public class Login extends Fragment {
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkUser();
+                String e = email.getText().toString();
+                String p = password.getText().toString();
+                if (e.equals("") || p.equals(""))
+                {
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    replaceFragment(new Login());
+                    transaction.commit();
+                }
+                else
+                {
+                    checkUser();
+                }
             }
         });
         return view;
