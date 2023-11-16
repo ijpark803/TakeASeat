@@ -22,6 +22,7 @@ import com.google.firebase.database.ServerValue;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -119,9 +120,9 @@ public class BookingPage extends Fragment {
 
         // indoor and outdoor reserve buttons for seating
         Button indoorReserveButton = rootView.findViewById(R.id.indoorreservebtn);
-        indoorReserveButton.setEnabled(false);
+        //indoorReserveButton.setEnabled(false);
         Button outdoorReserveButton = rootView.findViewById(R.id.outdoorreservebtn);
-        outdoorReserveButton.setEnabled(false);
+        //outdoorReserveButton.setEnabled(false);
 
         // add time slots from 8:00 AM to 5:00 PM with 30-minute intervals
         for (int hour = 8; hour < 17; hour++) {
@@ -148,7 +149,6 @@ public class BookingPage extends Fragment {
                         }
                     }
                 });
-
                 timeSlotTextView.setId(count);
                 count++;
                 timeSlotsLayout.addView(timeSlotTextView);
@@ -160,17 +160,29 @@ public class BookingPage extends Fragment {
                     // Parse the formatted time string to Date
                     Date specifiedTime = sdf.parse(time);
 
-                    // Compare the times
-                    if (currentTime.before(specifiedTime)) {
-                        System.out.println("future");
-                        timeSlotTextView.setEnabled(true);
-                    } else if (currentTime.after(specifiedTime)) {
-                        System.out.println("past]");
-                        timeSlotTextView.setEnabled(false);
-                    } else {
-                        System.out.println("now");
-                        timeSlotTextView.setEnabled(false);
-                    }
+                    // Set the date part of specifiedTime to be the same as the current time
+                    Calendar currentCalendar = Calendar.getInstance();
+                    currentCalendar.setTime(currentTime);
+
+                    Calendar specifiedCalendar = Calendar.getInstance();
+                    specifiedCalendar.setTime(specifiedTime);
+                    specifiedCalendar.set(Calendar.YEAR, currentCalendar.get(Calendar.YEAR));
+                    specifiedCalendar.set(Calendar.MONTH, currentCalendar.get(Calendar.MONTH));
+                    specifiedCalendar.set(Calendar.DAY_OF_MONTH, currentCalendar.get(Calendar.DAY_OF_MONTH));
+
+                    specifiedTime = specifiedCalendar.getTime();
+
+//                    // Compare the times
+//                    if (currentTime.before(specifiedTime)) {
+//                        System.out.println("future");
+//                        timeSlotTextView.setEnabled(true);
+//                    } else if (currentTime.after(specifiedTime)) {
+//                        System.out.println("past");
+//                        timeSlotTextView.setEnabled(false);
+//                    } else {
+//                        System.out.println("now");
+//                        timeSlotTextView.setEnabled(false);
+//                    }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
