@@ -103,6 +103,7 @@ public class ProfileView extends Fragment {
         mDatabase.child("reservations").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                containerLayout.removeAllViews();
                 for (DataSnapshot reservationSnapshot : dataSnapshot.getChildren()) {
                     String key = reservationSnapshot.getKey();
                     DataSnapshot userIdSnapshot = reservationSnapshot.child("userId");
@@ -120,7 +121,7 @@ public class ProfileView extends Fragment {
                             reservationsList.add(key);
                         }
                     }
-                    TextView ReservationDisplay = new TextView(getContext());
+
                     for (Map.Entry<String, List<String>> entry : reservationsMap.entrySet()) {
 //                        String date = entry.getKey();
 //                        Date d = new Date(date);
@@ -128,7 +129,7 @@ public class ProfileView extends Fragment {
 //                        String formattedDate = sdf.format(date);
                         List<String> reservationKeys = entry.getValue();
                         for(String k : reservationKeys){
-
+                            TextView ReservationDisplay = new TextView(getContext());
                             DataSnapshot snap = dataSnapshot.child(k);
                             String reservationDate = snap.child("date").getValue(String.class);
                             final String[] buildingId = {snap.child("buildingId").getValue(String.class)};
@@ -191,7 +192,7 @@ public class ProfileView extends Fragment {
 
                             DatabaseReference reservationRef = dataSnapshot.getRef().child(k).child("status");
                             reservationRef.setValue(status);
-                            mDatabase.child("user").child(ma.currentUser.getEmail().replace(".","_")).child("activeReservation").setValue(status);
+                            mDatabase.child("users").child(ma.currentUser.getEmail().replace(".","_")).child("activeReservation").setValue(status);
                             Boolean finalStatus = status;
                             String finalIndoor = indoor;
                             mDatabase.child("buildings").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -209,6 +210,7 @@ public class ProfileView extends Fragment {
                                                 Log.d("reservation", rez);
                                                 ReservationDisplay.setText("Date: " + reservationDate +
                                                         ", Time Slot: " + timeSlot + ", Status: " + finalStatus + ", Duration: " + duration + "hours, Building ID: " + buildingName[0] + ", Location: " + finalIndoor);
+                                                containerLayout.addView(ReservationDisplay);
                                                 break;
                                             }
                                             Log.d("Firebase", building.toString());
@@ -224,7 +226,7 @@ public class ProfileView extends Fragment {
 
                         }
                     }
-                    containerLayout.addView(ReservationDisplay);
+                    //containerLayout.addView(ReservationDisplay);
                 }
             }
 
