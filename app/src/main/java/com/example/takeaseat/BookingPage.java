@@ -59,6 +59,7 @@ public class BookingPage extends Fragment {
         // Empty constructor
     }
 
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -68,12 +69,13 @@ public class BookingPage extends Fragment {
      * @return A new instance of fragment BookingPage.
      */
 
-    public static BookingPage newInstance(String param1, String param2) {
+    public static BookingPage newInstance(String param1, String param2, Building building) {
         BookingPage fragment = new BookingPage();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+        fragment.currBuilding = building;  // Set the provided building instance
         return fragment;
     }
 
@@ -315,11 +317,11 @@ public class BookingPage extends Fragment {
         return rootView;
     }
 
-    private boolean isConsecutive(int slot1, int slot2) {
+    public boolean isConsecutive(int slot1, int slot2) {
         // Implement logic to check if slots are consecutive
         return Math.abs(slot1 - slot2) == 1;
     }
-    private boolean checkConsecutivenessOfSelectedSlots() {
+    boolean checkConsecutivenessOfSelectedSlots() {
         List<Integer> selectedSlotNumbers = new ArrayList<>();
 
         // Extract slot numbers from selectedSlots
