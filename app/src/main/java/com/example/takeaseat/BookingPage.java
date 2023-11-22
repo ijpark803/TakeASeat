@@ -239,7 +239,7 @@ public class BookingPage extends Fragment {
                     return; // cant reserve if already have active reservation
                 }
                 Reservation curr = new Reservation();
-                if (selectedSlots.size() <= maxSelections && checkConsecutivenessOfSelectedSlots()) {
+                if (checkMaxSelected() && checkConsecutivenessOfSelectedSlots()) {
                     Object[] times = selectedSlots.toArray();
                     int startingIndex = (Integer) times[0];
                     CheckBox slotView = rootView.findViewById(startingIndex);
@@ -339,6 +339,18 @@ public class BookingPage extends Fragment {
             }
         }
         return true;
+    }
+
+    boolean checkMaxSelected()
+    {
+        if (selectedSlots.size() <= 4)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public void decrementOutdoor(List<Integer> selectedSlotNumbers)

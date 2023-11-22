@@ -77,7 +77,6 @@ public class BlackBoxTest3 {
         // Check if the reserve buttons are now enabled
         onView(withId(R.id.indoorreservebtn)).check(matches(isEnabled()));
         onView(withId(R.id.outdoorreservebtn)).check(matches(isEnabled()));
-        // ... rest of your test code ...
     }
 
 
