@@ -7,9 +7,14 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import android.util.Log;
+
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 
 /**
@@ -18,15 +23,33 @@ import java.util.List;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class WhiteBoxTest1 {
-    public void testDecrementIndoor() {
-    // Written by Irene Park
-        Building mockBuilding = new Building();
-        BookingPage bookingPage = BookingPage.newInstance("param1", "param2", mockBuilding);
-        List<Integer> selectedSlots = Arrays.asList(0, 1);
-        bookingPage.decrementIndoor(selectedSlots);
+    // Irene Park
+    @Test
+    public void testParseValidTime() {
 
-        // Assert the results
-        assertEquals(4, mockBuilding.timeSlots.get("8:00").getIndoor());
-        assertEquals(4, mockBuilding.timeSlots.get("8:30").getIndoor());
+        String validTimeString = "12:34";
+        ProfileView pv = new ProfileView();
+
+        Date parsedDate = pv.parseTime(validTimeString);
+
+        assertNotNull(parsedDate);
+        assertEquals(validTimeString, formatTime(parsedDate));
+    }
+
+    @Test
+    public void testParseInvalidTime() {
+        // Arrange
+        String invalidTimeString = "invalidTime";
+        ProfileView pv = new ProfileView();
+        // Act
+        Date parsedDate = pv.parseTime(invalidTimeString);
+
+        // Assert
+        assertNull(parsedDate);
+    }
+
+    private String formatTime(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.US);
+        return dateFormat.format(date);
     }
 }

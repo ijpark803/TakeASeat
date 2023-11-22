@@ -273,7 +273,7 @@ public class ProfileView extends Fragment {
 
         return view;
     }
-    private void replaceFragment(Fragment fragment) {
+    public void replaceFragment(Fragment fragment) {
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -281,7 +281,7 @@ public class ProfileView extends Fragment {
         fragmentTransaction.commit();
 
     }
-    private static Date parseTime(String timeString) {
+    public static Date parseTime(String timeString) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.US);
             return dateFormat.parse(timeString);

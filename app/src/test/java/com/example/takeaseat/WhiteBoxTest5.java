@@ -1,23 +1,15 @@
 package com.example.takeaseat;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import com.google.firebase.database.DatabaseReference;
 
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.runner.RunWith;
+
 
 public class WhiteBoxTest5 {
-    @Test
-    public void testOnCreateView() {
-        //need to add dependency for testImplementation 'org.mockito:mockito-core:x.y.z'
-//        Bundle mockBundle = mock(Bundle.class);
-//        when(mockBundle.getString("buildingId")).thenReturn("testBuildingId");
-//
-//        BookingPage bookingPage = new BookingPage();
-//        bookingPage.setArguments(mockBundle);
-//        View rootView = bookingPage.onCreateView(mock(LayoutInflater.class), mock(ViewGroup.class), mock(Bundle.class));
-//
-//        assertNotNull(bookingPage.currBuilding);
-//        assertNotNull(bookingPage.description);
-
-    }
+// todo
 }

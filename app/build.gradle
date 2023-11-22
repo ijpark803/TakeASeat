@@ -26,6 +26,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    testOptions {
+        unitTests {
+            unitTests.returnDefaultValues = true
+        }
+    }
 }
 
 dependencies {
@@ -40,6 +45,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:22.2.0'
     implementation 'com.google.firebase:firebase-storage:20.3.0'
     implementation 'com.google.android.libraries.places:places:3.2.0'
+    //implementation 'androidx.fragment:fragment-testing:1.6.2'
     //implementation 'com.google.firebase:firebase-auth:22.2.0'
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
