@@ -16,15 +16,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
+
 // Written by Irene Park
 
-
-public class BlackBoxTest4 {
+public class BlackBoxTest5 {
     @Rule
     public ActivityScenarioRule<MainActivity> activityRule = new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void testLogin() {
+    public void testLogoutin() {
         onView(withId(R.id.fragment2btn)).perform(click());
 
         String email = "irene";

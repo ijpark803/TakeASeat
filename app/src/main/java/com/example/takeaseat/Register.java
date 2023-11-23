@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -42,12 +43,12 @@ public class Register extends Fragment {
     private String mParam2;
     private EditText name, email, password, affiliation, id;
     public Uri photourl;
-    private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
+    public FirebaseAuth mAuth;
+    public DatabaseReference mDatabase;
     public MainActivity ma;
 
-    private ActivityResultLauncher<Intent> pickImageLauncher;
-    private StorageReference storageReference;
+    public ActivityResultLauncher<Intent> pickImageLauncher;
+    public StorageReference storageReference;
 
     public Register() {
         // Constructor
@@ -72,6 +73,7 @@ public class Register extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         storageReference = FirebaseStorage.getInstance().getReference();
+        FirebaseApp.initializeApp(getContext());
 
     }
 

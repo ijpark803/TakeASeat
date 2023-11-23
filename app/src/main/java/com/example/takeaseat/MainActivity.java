@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     // First fragment button is map button
     // Second fragment button is profile button
     Button firstFragmentBtn, secondFragmentBtn;
-    User currentUser;
+    public User currentUser;
     public boolean loggedIn = false;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;

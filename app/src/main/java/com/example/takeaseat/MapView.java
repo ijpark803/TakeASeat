@@ -93,7 +93,8 @@ public class MapView extends Fragment implements OnMapReadyCallback {
 
                 } else {
                     Log.e("Firebase", "Error getting data", task.getException());
-                }if (getContext() != null) {
+                }
+                if (getContext() != null) {
                     IconGenerator iconGenerator = new IconGenerator(getContext());
                     Bitmap annen = iconGenerator.makeIcon("Annenberg");
 
@@ -168,32 +169,12 @@ public class MapView extends Fragment implements OnMapReadyCallback {
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                if (ma.loggedIn)
-                {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("buildingId", marker.getTitle()); // Replace with the actual building name
-                    Fragment bookingPageFragment = new BookingPage();
-                    bookingPageFragment.setArguments(bundle);
-                    replaceFragment(bookingPageFragment);
-                }
-                else
-                {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("buildingId", marker.getTitle()); // Replace with the actual building name
-                    Fragment loginPageFragment = new Login();
-                    loginPageFragment.setArguments(bundle);
-                    replaceFragment(loginPageFragment);
-                }
-                return true;
+                return ClickedMarker(marker);
             }
         });
     }
 
-    public void addBuilding(Building building){
-
-    }
-
-    private void replaceFragment(Fragment fragment) {
+    public void replaceFragment(Fragment fragment) {
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -201,5 +182,26 @@ public class MapView extends Fragment implements OnMapReadyCallback {
         fragmentTransaction.commit();
 
     }
+
+    public boolean ClickedMarker(Marker marker){
+            if (ma.loggedIn)
+            {
+                Bundle bundle = new Bundle();
+                bundle.putString("buildingId", marker.getTitle()); // Replace with the actual building name
+                Fragment bookingPageFragment = new BookingPage();
+                bookingPageFragment.setArguments(bundle);
+                replaceFragment(bookingPageFragment);
+            }
+            else
+            {
+                Bundle bundle = new Bundle();
+                bundle.putString("buildingId", marker.getTitle()); // Replace with the actual building name
+                Fragment loginPageFragment = new Login();
+                loginPageFragment.setArguments(bundle);
+                replaceFragment(loginPageFragment);
+            }
+            return true;
+        }
+
 
 }

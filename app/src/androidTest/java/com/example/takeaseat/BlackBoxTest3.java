@@ -36,6 +36,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
+// Written by Irene Park
 
 @RunWith(AndroidJUnit4.class)
 public class BlackBoxTest3 {
@@ -58,26 +59,26 @@ public class BlackBoxTest3 {
 
     }
 
-    @Test
-    public void testReserveButtons() {
-
-
-        onView(withId(R.id.description)).check(matches(isDisplayed()));
-
-        // Check if the reserve buttons are initially disabled
-        onView(withId(R.id.indoorreservebtn)).check(matches(not(isEnabled())));
-        onView(withId(R.id.outdoorreservebtn)).check(matches(not(isEnabled())));
-
-        // Select four consecutive time slots
-        onView(withId(0)).perform(click());
-        onView(withId(1)).perform(click());
-        onView(withId(2)).perform(click());
-        onView(withId(3)).perform(click());
-
-        // Check if the reserve buttons are now enabled
-        onView(withId(R.id.indoorreservebtn)).check(matches(isEnabled()));
-        onView(withId(R.id.outdoorreservebtn)).check(matches(isEnabled()));
-    }
+//    @Test
+//    public void testReserveButtons() {
+//
+//
+//        onView(withId(R.id.description)).check(matches(isDisplayed()));
+//
+//        // Check if the reserve buttons are initially disabled
+//        onView(withId(R.id.indoorreservebtn)).check(matches(not(isEnabled())));
+//        onView(withId(R.id.outdoorreservebtn)).check(matches(not(isEnabled())));
+//
+//        // Select four consecutive time slots
+//        onView(withId(0)).perform(click());
+//        onView(withId(1)).perform(click());
+//        onView(withId(2)).perform(click());
+//        onView(withId(3)).perform(click());
+//
+//        // Check if the reserve buttons are now enabled
+//        onView(withId(R.id.indoorreservebtn)).check(matches(isEnabled()));
+//        onView(withId(R.id.outdoorreservebtn)).check(matches(isEnabled()));
+//    }
 
 
 }

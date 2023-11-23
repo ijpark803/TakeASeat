@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
-
+// Irene Park
 public class WhiteBoxTest4 {
     @Test
     public void testDecrementOutdoor() {
