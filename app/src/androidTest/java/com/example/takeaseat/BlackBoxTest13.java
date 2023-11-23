@@ -23,7 +23,7 @@ public class BlackBoxTest13 {
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule = new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void verifySigninFields() {
+    public void verifyPictureFunctionality() {
         // Start the activity
         ActivityScenario<MainActivity> scenario = mActivityScenarioRule.getScenario();
 
