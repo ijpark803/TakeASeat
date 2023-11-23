@@ -15,5 +15,7 @@ public class WhiteBoxTest6 {
         BookingPage bookingPage = new BookingPage();
         bookingPage.selectedSlots = new HashSet<>(Arrays.asList(1, 2, 3, 4, 5));
         assertFalse(bookingPage.checkMaxSelected());
+        bookingPage.selectedSlots = new HashSet<>(Arrays.asList(1,2,3,4));
+        assertTrue(bookingPage.checkMaxSelected());
     }
 }
