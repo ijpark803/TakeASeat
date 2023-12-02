@@ -38,3 +38,11 @@ p: rp
 That concludes the step by step process for navigating our app. We hope you enjoyed!
 
 -- Sincerely, Kevin, Irene & Kaitlyn 
+
+12/1 Updates from sprints
+- app no longer crashes if user info and password are left blank and submit button is clicked. 
+- reserve button is disabled/enabled depending on whether # of timeslots do not exceed 2 hours are selected & consecutive
+- Tried to change the app so that user can reserve from multiple dates but faild to resolve in time.
+- cancellation button added & logic written, but bug with reservation status persists 
+- timeslots are not clickable if the times have passed already 
+
